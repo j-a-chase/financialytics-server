@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%=title%></title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="division">
+    <h1>Financialytics</h1>
+</header>
+<section id="summary" class="division">
+    <h2>Spending Summary - <%=month%></h2>
+    <div id="chart"></div>
+</section>
+<main class="division">
+    <h2>Recent Transactions</h2>
+    <table>
+        <% for (const transaction of transactions) { %> 
+            <tr>
+                <td><%=transaction.date%></td>
+                <td><%=transaction.description%></td>
+                <td><%=transaction.category%></td>
+                <td><%=transaction.amount%></td>
+            </tr>
+        <% } %>
+    </table>
+</main>
+<section id="sidebar" class="division">
+    <h3>Headlines</h3>
+    <div class="headline"></div>
+    <div class="headline"></div>
+    <h3>Stocks</h3>
+    <div id="stocks"></div>
+</section>
+</body>
+</html>

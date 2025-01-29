@@ -20,6 +20,7 @@ app.listen(process.env.PORT, () => {
 
 // register view engine
 app.set('view engine', 'ejs');
+app.set('views', 'templates');
 
 // middleware & static files
 app.use(express.static('public'));
@@ -27,7 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // home page GET
 app.get('/', (_, res) => {
-    res.status(200).render('home');
+    res.status(200).render('home', { title: 'Home', month: 'January', transactions: [] });
 });
 
 // 404 page

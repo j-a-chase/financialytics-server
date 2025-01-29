@@ -1,0 +1,30 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #297045;
+}
+
+.division {
+    color: #421f08;
+    background-color: #dafeb7;
+}
+
+header {
+    padding: 1rem;
+    margin: 1rem;
+    width: 75%;
+}
+
+.chart {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+td {
+    color: #421f08;
+    font-weight: bold;
+    background-color: #fcc8b2;
+}
