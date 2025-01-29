@@ -28,7 +28,13 @@ app.use(express.urlencoded({ extended: true }));
 
 // home page GET
 app.get('/', (_, res) => {
-    res.status(200).render('home', { title: 'Home', month: 'January', transactions: [] });
+    const stubTransactions = [
+        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
+        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
+        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 }
+    ];
+
+    res.status(200).render('home', { title: 'Financialytics', month: 'January', chart: "chart.jpg", transactions: stubTransactions });
 });
 
 // 404 page

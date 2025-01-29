@@ -6,25 +6,92 @@
 
 body {
     background-color: #297045;
+    display: flex;
+    flex: 1;
 }
 
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* different sections on the webpage */
 .division {
+    padding: 1rem;
+    margin: 1rem;
     color: #421f08;
     background-color: #dafeb7;
 }
 
-header {
-    padding: 1rem;
-    margin: 1rem;
-    width: 75%;
+/* Main content */
+main#home {
+    width: 70%;
+    height: 100%;
 }
 
-.chart {
+/* spending summary chart */
+#summary h2 {
+    margin-bottom: 1rem;
+}
+
+#chart {
     background-color: rgba(255, 255, 255, 0.5);
+    width: 90%;
+    margin-left: 5%;
+    padding: 1rem .25rem;
+}
+
+#chart img {
+    width: 65%;
+    height: auto;
+    display: block;
+    margin: auto;
+    border-radius: 50%;
+}
+
+/* recent transactions table */
+
+table#transactions {
+    width: 70%;
+    border-collapse: separate;
+    border-spacing: 0 1.5rem;
+    margin-left: 5%;
+}
+
+tr td:first-child {
+    border-top-left-radius: 0.75rem;
+    border-bottom-left-radius: 0.75rem;
+}
+
+tr td:last-child {
+    border-top-right-radius: 0.75rem;
+    border-bottom-right-radius: 0.75rem;
 }
 
 td {
     color: #421f08;
     font-weight: bold;
     background-color: #fcc8b2;
+    padding: 0.5rem;
+}
+
+/* sidebar */
+#sidebar {
+    width: 30%;
+}
+
+#sidebar h2 {
+    margin-bottom: 1rem;
+}
+
+#headlines {
+    margin: 1rem;
+}
+
+#stocks {
+    margin: 2rem 1rem 1rem 1rem;
+}
+
+.headline {
+    margin-bottom: 0.5rem;
 }
