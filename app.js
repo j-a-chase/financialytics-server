@@ -34,7 +34,21 @@ app.get('/', (_, res) => {
         { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 }
     ];
 
-    res.status(200).render('home', { title: 'Financialytics', month: 'January', chart: "chart.jpg", transactions: stubTransactions });
+    res.status(200).render('home', { month: 'January', chart: "chart.jpg", transactions: stubTransactions });
+});
+
+app.get('/history', (_, res) => {
+    const stubTransactions = [
+        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
+        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
+        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
+        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
+        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
+        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
+        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
+    ];
+
+    res.status(200).render('history', { transactions: stubTransactions });
 });
 
 // 404 page
