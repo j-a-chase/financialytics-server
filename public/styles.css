@@ -5,6 +5,7 @@
 }
 
 body {
+    overflow-y: hidden;
     background-color: #297045;
     display: flex;
     flex: 1;
@@ -18,9 +19,10 @@ a {
 /* different sections on the webpage */
 .division {
     padding: 1rem;
-    margin: 1rem;
+    margin: .65rem;
     color: #421f08;
     background-color: #dafeb7;
+    border: #421f08 0.25rem solid;
 }
 
 /* Main content */
