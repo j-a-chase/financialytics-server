@@ -69,6 +69,16 @@ app.get('/history', (_, res) => {
     res.status(200).render('history', { transactions: stubTransactions });
 });
 
+app.get('/charts', (_, res) => {
+    const stubCharts = [
+        { name: 'chart1', image: 'chart.jpg' },
+        { name: 'chart2', image: 'chart.jpg' },
+        { name: 'chart3', image: 'chart.jpg' },
+    ]
+
+    res.status(200).render('charts', { charts: stubCharts });
+});
+
 // 404 page
 // app.use runs in file order, so this should always be last, as it should only
 // be reached if no other routes match
