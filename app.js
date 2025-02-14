@@ -8,6 +8,7 @@
 // imports
 const express = require('express');
 const dotenv = require('dotenv');
+const { getCurrentMonth } = require('./utils/getCurrentMonth');
 
 // main app
 const app = express();
@@ -28,45 +29,32 @@ app.use(express.urlencoded({ extended: true }));
 
 // home page GET
 app.get('/', (_, res) => {
-    const stubTransactions = [
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 }
-    ];
-
-    res.status(200).render('home', { month: 'January', chart: "chart.jpg", transactions: stubTransactions });
+    // stub data using a test user
+    fetch(`http://${process.env.API_HOST}/transaction/recent?userId=${process.env.TEST_USER_ID}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch recent transactions');
+            }
+            return response.json();
+        })
+        .then(data => {
+            res.status(200).render('home', { month: getCurrentMonth(), chart: "chart.jpg", transactions: data });
+        })
+        .catch(error => console.error(error));
 });
 
 app.get('/history', (_, res) => {
-    const stubTransactions = [
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-        { date: '1-28-2025', description: 'something else', category: 'category', amount: 100 },
-    ];
-
-    res.status(200).render('history', { transactions: stubTransactions });
+    fetch(`http://${process.env.API_HOST}/transaction/all?userId=${process.env.TEST_USER_ID}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch all transactions');
+            }
+            return response.json();
+        })
+        .then(data => {
+            res.status(200).render('history', { transactions: data });
+        })
+        .catch(error => console.error(error));
 });
 
 app.get('/charts', (_, res) => {
