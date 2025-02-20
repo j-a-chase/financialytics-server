@@ -3,7 +3,7 @@
 <head>
     <%- include('partials/head', { title: 'Financialytics'}) %>
 </head>
-<body>
+<body data-user="<%=user%>">
 <main id="home">
     <header class="division">
         <h1>Financialytics</h1>
@@ -15,7 +15,7 @@
         </div>
     </section>
     <section id="recent" class="division">
-        <a id="history" href="/history"><h2>Recent Transactions</h2></a>
+        <a id="history" href="/history?uid=<%=user.id%>"><h2>Recent Transactions</h2></a>
         <table id="transactions">
             <% for (const transaction of transactions) { %> 
                 <tr>

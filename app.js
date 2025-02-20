@@ -30,21 +30,36 @@ app.use(express.urlencoded({ extended: true }));
 // home page GET
 app.get('/', (_, res) => {
     // stub data using a test user
-    fetch(`http://${process.env.API_HOST}/transaction/recent?userId=${process.env.TEST_USER_ID}`)
+    fetch(`http://${process.env.API_HOST}/user/initialize?uid=${process.env.TEST_USER_ID}`)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Failed to fetch recent transactions');
+                throw new Error('Failed to initialize user!');
             }
             return response.json();
         })
         .then(data => {
-            res.status(200).render('home', { month: getCurrentMonth(), chart: "chart.jpg", transactions: data });
+            user = { name: data.name, id: data.id };
+            transactions = (data.transactions.length >= 4) ? data.transactions.slice(-3) : data.transactions;
+            res.status(200).render('home', {
+                month: getCurrentMonth(),
+                chart: "chart.jpg",
+                user: user,
+                transactions: transactions
+            });
         })
         .catch(error => console.error(error));
 });
 
-app.get('/history', (_, res) => {
-    fetch(`http://${process.env.API_HOST}/transaction/all?userId=${process.env.TEST_USER_ID}`)
+app.get('/history', (req, res) => {
+    if (!parseInt(req.query.uid)) {
+        res.status(400).render('error', {
+            title: 'Bad Request - 400',
+            message: 'Invalid user ID'
+        });
+        return;
+    }
+
+    fetch(`http://${process.env.API_HOST}/transaction/all?uid=${req.query.uid}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Failed to fetch all transactions');
@@ -71,5 +86,8 @@ app.get('/charts', (_, res) => {
 // app.use runs in file order, so this should always be last, as it should only
 // be reached if no other routes match
 app.use((_, res) => {
-    res.status(404).render('404');
+    res.status(404).render('error', {
+        title: 'Not Found - 404',
+        message: "Sorry, the page you are looking for cannot be found."
+    });
 });
