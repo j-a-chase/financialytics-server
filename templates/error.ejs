@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%-include('partials/head', { title: title }) %>
+</head>
+<body>
+    <main id="home">
+        <header class="division">
+            <h1><%=title%></h1>
+        </header>
+        <section class="division">
+            <a href="/"><h2>Return to Home</h2></a>
+        </section>
+        <section class="division">
+            <p><%=message%></p>
+        </section>
+    </main>
+    <section id="sidebar" class="division"><%=message%></section>
+</body>
+</html>
