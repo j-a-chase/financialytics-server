@@ -85,3 +85,11 @@ button:hover {
     background-color: #f2b90c;
     cursor: pointer;
 }
+
+button:disabled {
+    background-color: #ccc;
+}
+
+button:hover:disabled {
+    cursor: not-allowed;
+}

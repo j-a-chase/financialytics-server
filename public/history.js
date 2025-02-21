@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const addTransaction = document.querySelector('button');
     addTransaction.addEventListener('click', () => {
+        addTransaction.disabled = true;
         let tbody = document.querySelector('table').querySelector('tbody');
         let newTransaction = document.createElement('tr');
         newTransaction.innerHTML = `
@@ -29,6 +30,28 @@ document.addEventListener('DOMContentLoaded', () => {
         amountInput.setAttribute('min', '0');
         let saveButton = document.createElement('button');
         saveButton.innerText = 'Save';
+        saveButton.addEventListener('click', () => {
+            fetch('/api/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    date: dateInput.value,
+                    description: descriptionInput.value,
+                    category: categoryInput.value,
+                    amount: amountInput.value * 100
+                })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to add transaction');
+                    }
+                    return response.text();
+                })
+                .then(_ => location.reload())
+                .catch(error => console.error(error));
+        });
 
         let tableData = newTransaction.querySelectorAll('td');
         tableData[0].appendChild(dateInput);
