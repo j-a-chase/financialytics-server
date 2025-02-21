@@ -2,9 +2,9 @@
  * Get the current month
 */
 
-const getCurrentMonth = () => {
+const getStringMonth = monthNum => {
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    return monthNames[new Date().getMonth()];
+    return monthNames[monthNum];
 };
 
-module.exports = {getCurrentMonth: getCurrentMonth};
+module.exports = {getStringMonth: getStringMonth};
