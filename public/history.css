@@ -71,3 +71,17 @@ th {
 tr:nth-child(even) td {
     background-color: #e0845c;
 }
+
+button {
+    color: #421f08;
+    background-color: #cf801f;
+    font-weight: bold;
+    /* border: none; */
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #f2b90c;
+    cursor: pointer;
+}

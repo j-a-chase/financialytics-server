@@ -18,15 +18,20 @@
             <th>Description</th>
             <th>Category</th>
             <th>Amount</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
+        <tr>
+            <td colspan="5"><button style="margin-left: 5rem;">Add Transaction</button></td>
+        </tr>
         <% for (const transaction of transactions) { %>
             <tr>
                 <td><%=transaction.date%></td>
                 <td><%=transaction.description%></td>
                 <td><%=transaction.category%></td>
                 <td><%=`$${(transaction.amount / 100.0).toFixed(2)}`%></td>
+                <td><button>Edit Transaction</button></td>
             </tr>
         <% } %>
     </tbody>
