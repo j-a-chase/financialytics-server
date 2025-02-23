@@ -7,10 +7,7 @@
 </head>
 <body>
 <main>
-<header>
-    <a href="/"><img src="arrow-go-back.svg" alt="Home"></a>
-    <h1>Transaction History</h1>
-</header>
+<%- include('partials/header', { title: 'Transaction History' }) %>
 <section>
     <table>
     <thead>
@@ -24,7 +21,11 @@
     </thead>
     <tbody>
         <tr>
-            <td colspan="5"><button style="margin-left: 5rem;">Add Transaction</button></td>
+            <td></td>
+            <td></td>
+            <td><button>Add Transaction</button></td>
+            <td></td>
+            <td></td>
         </tr>
         <% for (const transaction of transactions) { %>
             <tr data-transaction="<%=transaction.id%>">

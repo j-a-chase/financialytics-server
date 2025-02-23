@@ -7,25 +7,22 @@
 </head>
 <body>
 <main>
-    <header>
-        <a href="/"><img src="arrow-go-back.svg" alt="Home"></a>
-        <h1>Analytics</h1>
-    </header>
-    <section>
-        <% for (const chart of charts) { %>
-            <div class="chart-container">
-                <div class="buttons">
-                    <button>Week</button>
-                    <button>Month</button>
-                    <button>Year</button>
-                </div>
-                <div class="chart">
-                    <h2><%=chart.name%></h2>
-                    <img src="<%=chart.image%>" alt="Chart">
-                </div>
+<%- include('partials/header', { title: 'Analytics' }) %>
+<section>
+    <% for (const chart of charts) { %>
+        <div class="chart-container">
+            <div class="buttons">
+                <button>Week</button>
+                <button>Month</button>
+                <button>Year</button>
             </div>
-        <% } %>
-    </section>
+            <div class="chart">
+                <h2><%=chart.name%></h2>
+                <img src="<%=chart.image%>" alt="Chart">
+            </div>
+        </div>
+    <% } %>
+</section>
 </main>
 </body>
 </html>
