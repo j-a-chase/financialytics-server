@@ -27,12 +27,12 @@
             <td colspan="5"><button style="margin-left: 5rem;">Add Transaction</button></td>
         </tr>
         <% for (const transaction of transactions) { %>
-            <tr>
+            <tr data-transaction="<%=transaction.id%>">
                 <td><%=transaction.date%></td>
                 <td><%=transaction.description%></td>
-                <td><%=transaction.category%></td>
+                <td><%=transaction.category[0].toUpperCase() + transaction.category.slice(1)%></td>
                 <td><%=`$${(transaction.amount / 100.0).toFixed(2)}`%></td>
-                <td><button>Edit Transaction</button></td>
+                <td><button class="edit-button">Edit Transaction</button></td>
             </tr>
         <% } %>
     </tbody>

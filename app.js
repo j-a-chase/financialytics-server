@@ -29,6 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use((req, res, next) => {
     console.log(`${req.method}: ${req.url} - Status ${res.statusCode}`);
+    console.log(`Request body: ${JSON.stringify(req.body)}`);
     next();
 });
 
