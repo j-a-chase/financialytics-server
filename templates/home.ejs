@@ -17,7 +17,7 @@
     <section id="recent" class="division">
         <a id="history" href="/history?uid=<%=user.id%>"><h2>Recent Transactions</h2></a>
         <table id="transactions">
-            <% for (const transaction of transactions) { %> 
+            <% for (const transaction of transactions.reverse()) { %> 
                 <tr>
                     <td><%=transaction.date%></td>
                     <td><%=transaction.description%></td>

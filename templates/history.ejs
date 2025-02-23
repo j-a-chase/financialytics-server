@@ -27,7 +27,7 @@
             <td></td>
             <td></td>
         </tr>
-        <% for (const transaction of transactions) { %>
+        <% for (const transaction of transactions.reverse()) { %>
             <tr data-transaction="<%=transaction.id%>">
                 <td><%=transaction.date%></td>
                 <td><%=transaction.description%></td>
