@@ -27,8 +27,15 @@ app.set('views', 'templates');
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use((req, res, next) => {
+    console.log(`${req.method}: ${req.url} - Status ${res.statusCode}`);
+    next();
+});
 
-// home page GET
+/*
+    GET ENDPOINTS
+*/
+
 app.get('/', (_, res) => {
     // stub data using a test user
     fetch(`http://${process.env.API_HOST}/user/initialize?uid=${process.env.TEST_USER_ID}`)
@@ -105,6 +112,31 @@ app.post('/api/add', (req, res) => {
         .then(response => {
             if (!response.ok) {
                 throw new Error('Failed to add transaction');
+            }
+            return response.text();
+        })
+        .then(data => res.status(200).send(data))
+        .catch(error => console.error(error));
+});
+
+app.post('/api/edit', (req, res) => {
+    const date = new Date(req.body.date);
+    fetch(`http://${process.env.API_HOST}/transaction/edit`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: req.body.id,
+            date: `${date.getDate() + 1}-${getStringMonth(date.getMonth()).slice(0, 3)}-${date.getFullYear()}`,
+            description: req.body.description,
+            category: req.body.category,
+            amount: req.body.amount
+        })
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to edit transaction');
             }
             return response.text();
         })
