@@ -16,7 +16,9 @@ dotenv.config();
 
 // listen for requests
 app.listen(process.env.PORT, () => {
-    console.log(`Listening on port ${process.env.PORT}...`);
+    if (process.env.NODE_ENV === 'development') {
+        console.log(`Listening on port ${process.env.PORT}...`);
+    }
 });
 
 // register view engine
@@ -27,18 +29,20 @@ app.set('views', 'templates');
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use((req, res, next) => {
-    console.log(`${req.method}: ${req.url} - Status ${res.statusCode}`);
-    console.log(`Request body: ${JSON.stringify(req.body)}`);
-    next();
-});
+
+if (process.env.NODE_ENV === 'development') {
+    app.use((req, res, next) => {
+        console.log(`${req.method}: ${req.url} - Status ${res.statusCode}`);
+        console.log(`Request body: ${JSON.stringify(req.body)}`);
+        next();
+    });
+}
 
 /*
     GET ENDPOINTS
 */
 
 app.get('/', (_, res) => {
-    // stub data using a test user
     fetch(`http://${process.env.API_HOST}/user/initialize?uid=${process.env.TEST_USER_ID}`)
         .then(response => {
             if (!response.ok) {
@@ -56,7 +60,15 @@ app.get('/', (_, res) => {
                 transactions: transactions
             });
         })
-        .catch(error => console.error(error));
+        .catch(error => {
+            if (process.env.NODE_ENV === 'development') {
+                console.error(error);
+            }
+            res.status(500).render('error', {
+                title: 'Internal Server Error - 500',
+                message: 'Failed to initialize user!'
+            });
+        });
 });
 
 app.get('/history', (req, res) => {
@@ -78,7 +90,13 @@ app.get('/history', (req, res) => {
         .then(data => {
             res.status(200).render('history', { transactions: data });
         })
-        .catch(error => console.error(error));
+        .catch(error => {
+            console.error(error);
+            res.status(500).render('error', {
+                title: 'Internal Server Error - 500',
+                message: 'Failed to fetch all transactions'
+            });
+        });
 });
 
 app.get('/charts', (_, res) => {
@@ -114,10 +132,13 @@ app.post('/api/add', (req, res) => {
             if (!response.ok) {
                 throw new Error('Failed to add transaction');
             }
-            return response.text();
+            return response.body;
         })
         .then(data => res.status(200).send(data))
-        .catch(error => console.error(error));
+        .catch(error => {
+            console.error(error);
+            res.status(500).send('Failed to add transaction');
+        });
 });
 
 app.post('/api/edit', (req, res) => {
@@ -139,10 +160,13 @@ app.post('/api/edit', (req, res) => {
             if (!response.ok) {
                 throw new Error('Failed to edit transaction');
             }
-            return response.text();
+            return response.body;
         })
         .then(data => res.status(200).send(data))
-        .catch(error => console.error(error));
+        .catch(error => {
+            console.error(error);
+            res.status(500).send('Failed to edit transaction');
+        });
 });
 
 // 404 page
@@ -154,3 +178,5 @@ app.use((_, res) => {
         message: "Sorry, the page you are looking for cannot be found."
     });
 });
+
+module.exports = app;
