@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <%- include('partials/head', { title: 'Financialytics'}) %>
+    <script src="/home.js" defer></script>
 </head>
 <body data-user="<%=user%>">
 <main id="home">
@@ -29,21 +30,17 @@
     </section>
 </main>
 <section id="sidebar" class="division">
-    <div id="headlines">
-        <h2>Headlines</h2>
-        <% for (let i = 0; i < 5; i++) { %>
-        <div class="headline">
-            <p>Lorem Ipsum</p>
+    <h2>Goals</h2>
+    <div id="income">
+        <h3>Income</h3>
+        <% const income = transactions.filter(transaction => transaction.category === 'income').reduce((acc, transaction) => acc + transaction.amount, 0) / 100 %>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBarIncome"></div>
         </div>
-        <% } %>
-    </div>
-    <div id="stocks">
-        <h2>Stocks</h2>
-        <% for (let i = 0; i < 5; i++) { %>
-        <div class="stock">
-            <p>Lorem Ipsum</p>
+        <div class="values">
+            <span id="incomeCurrent" data-income="<%=income%>">$0</span>
+            <span id="incomeBudget" data-budget="500">$0</span>
         </div>
-        <% } %>
     </div>
 </section>
 </body>
