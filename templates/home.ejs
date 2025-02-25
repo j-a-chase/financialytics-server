@@ -20,10 +20,7 @@
         <table id="transactions">
             <% for (const transaction of transactions.reverse()) { %> 
                 <tr>
-                    <td><%=transaction.date%></td>
-                    <td><%=transaction.description%></td>
-                    <td><%=transaction.category%></td>
-                    <td><%=`$${(transaction.amount / 100.0).toFixed(2)}`%></td>
+                    <%- include('partials/transaction', { transaction }) %>
                 </tr>
             <% } %>
         </table>
