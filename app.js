@@ -57,7 +57,8 @@ app.get('/', (_, res) => {
                 month: getStringMonth(new Date().getMonth()),
                 chart: "chart.jpg",
                 user: user,
-                transactions: transactions
+                transactions: transactions,
+                targets: data.targets
             });
         })
         .catch(error => {

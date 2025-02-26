@@ -27,18 +27,20 @@
     </section>
 </main>
 <section id="sidebar" class="division">
-    <h2>Goals</h2>
-    <div id="income">
-        <h3>Income</h3>
-        <% const income = transactions.filter(transaction => transaction.category === 'income').reduce((acc, transaction) => acc + transaction.amount, 0) / 100 %>
+    <h2>Targets</h2>
+    <% for (const target in targets) { %>
+    <div class="target">
+        <h3><%=target.charAt(0).toUpperCase() + target.slice(1)%></h3>
+        <% const currentValue = transactions.filter(transaction => transaction.category === target).reduce((acc, transaction) => acc + transaction.amount, 0) / 100 %>
         <div class="progress-bar-container">
-            <div class="progress-bar" id="progressBarIncome"></div>
+            <div class="progress-bar" id="progressBar<%=target.charAt(0).toUpperCase() + target.slice(1)%>"></div>
         </div>
         <div class="values">
-            <span id="incomeCurrent" data-income="<%=income%>">$0</span>
-            <span id="incomeBudget" data-budget="500">$0</span>
+            <span id="<%=target%>Current" data-<%=target%>="<%=currentValue%>">$0</span>
+            <span id="<%=target%>Budget" data-budget="<%=targets[target] / 100%>">$0</span>
         </div>
     </div>
+    <% } %>
 </section>
 </body>
 </html>
