@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const categories = ['income', 'food', 'living', 'entertainment', 'supplies', 'education', 'other'];
+
     categories.forEach(category => {
         let currentSpan = document.getElementById(`${category}Current`);
         let budgetSpan = document.getElementById(`${category}Budget`);
@@ -10,9 +11,22 @@ document.addEventListener('DOMContentLoaded', () => {
         let progressBar = document.getElementById(`progressBar${category.charAt(0).toUpperCase()}${category.slice(1)}`);
 
         progressBar.style.width = `${progressPercentage}%`;
+        if (progressPercentage >= 100.0) {
+            progressBar.style.backgroundColor = 'red';
+        }
         currentSpan.innerText = `$${current.toFixed(0)}`;
         budgetSpan.innerText = `$${budget.toFixed(0)}`;
     });
+
+    let monthlyCurrent = document.getElementById('monthlyCurrent');
+    let monthlyBudget = document.getElementById('monthlyBudget');
+    const monthlyCurrentValue = parseFloat(monthlyCurrent.innerText.slice(1));
+    const monthlyBudgetValue = parseFloat(monthlyBudget.innerText.slice(1));
+    const percentage = Math.min((monthlyCurrentValue / monthlyBudgetValue) * 100, 100).toFixed(1);
+    let progressBarMonthly = document.getElementById('progressBarMonthly');
+    progressBarMonthly.style.width = `${percentage}%`;
+    monthlyCurrent.innerText = `$${monthlyCurrentValue.toFixed(0)}`;
+    monthlyBudget.innerText = `$${monthlyBudgetValue.toFixed(0)}`;
 
     document.getElementById('edit-button').addEventListener('click', () => {
         const configPanel = document.querySelector('#target-config');

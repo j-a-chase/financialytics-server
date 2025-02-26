@@ -19,7 +19,7 @@
     <section id="recent" class="division">
         <a id="history" href="/history?uid=<%=user.id%>"><h2>Recent Transactions</h2></a>
         <table id="transactions">
-            <% for (const transaction of transactions.reverse()) { %> 
+            <% for (const transaction of recentTransactions.reverse()) { %> 
                 <tr>
                     <%- include('partials/transaction', { transaction }) %>
                 </tr>
@@ -29,6 +29,16 @@
 </main>
 <section id="target-panel" class="division sidebar">
     <h2>Targets</h2>
+    <div class="target">
+        <h3>Monthly Budget</h3>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBarMonthly"></div>
+        </div>
+        <div class="values">
+            <span id="monthlyCurrent">$<%=transactions.filter(transaction => transaction.category !== "income").reduce((acc, transaction) => acc + transaction.amount, 0) / 100%></span>
+            <span id="monthlyBudget">$<%=Object.values(targets).reduce((acc, target) => acc + target, 0) / 100%></span>
+        </div>
+    </div>
     <% for (const target in targets) { %>
     <div class="target">
         <h3><%=target.charAt(0).toUpperCase() + target.slice(1)%></h3>

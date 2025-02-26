@@ -5,7 +5,7 @@
 }
 
 body {
-    overflow-y: hidden;
+    /* overflow-y: hidden; */
     background-color: #297045;
     display: flex;
     flex: 1;
