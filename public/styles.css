@@ -78,11 +78,11 @@ td {
 }
 
 /* sidebar */
-#sidebar {
+.sidebar {
     width: 30%;
 }
 
-#sidebar h2 {
+.sidebar h2 {
     margin-bottom: 1rem;
 }
 

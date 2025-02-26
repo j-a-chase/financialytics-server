@@ -170,6 +170,32 @@ app.post('/api/edit', (req, res) => {
         });
 });
 
+app.post('/api/target/edit', (req, res) => {
+    if (!parseInt(req.query.uid)) {
+        res.status(400).send('Invalid request!');
+        return;
+    }
+
+    fetch(`http://${process.env.API_HOST}/user/target?uid=${req.query.uid}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(req.body)
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to edit target');
+            }
+            return response.body;
+        })
+        .then(data => res.status(200).send(data))
+        .catch(error => {
+            console.error(error);
+            res.status(500).send('Failed to edit target');
+        });
+});
+
 // 404 page
 // app.use runs in file order, so this should always be last, as it should only
 // be reached if no other routes match

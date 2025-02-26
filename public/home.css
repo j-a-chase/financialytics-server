@@ -1,13 +1,34 @@
+#edit-button {
+    float: right;
+    margin-right: 1rem;
+}
+
 button {
     color: #421f08;
     background-color: #cf801f;
     font-weight: bold;
     padding: 0.5rem 1rem;
-    float: right;
-    margin-right: 1rem;
 }
 
 button:hover {
     background-color: #f2b90c;
     cursor: pointer;
+}
+
+#target-config {
+    flex-direction: column;
+}
+
+.target-input {
+    margin: 0rem 0rem 0.5rem 1rem;
+}
+
+#form-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+}
+
+#save-button, #cancel-button {
+    margin: 0.5rem 0.5rem 0rem 1rem;
 }

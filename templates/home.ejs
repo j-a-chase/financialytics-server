@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="/home.css">
     <script src="/home.js" defer></script>
 </head>
-<body data-user="<%=user%>">
+<body data-user="<%=JSON.stringify(user)%>">
 <main id="home">
     <header class="division">
         <h1>Financialytics</h1>
@@ -27,7 +27,7 @@
         </table>
     </section>
 </main>
-<section id="sidebar" class="division">
+<section id="target-panel" class="division sidebar">
     <h2>Targets</h2>
     <% for (const target in targets) { %>
     <div class="target">
@@ -42,7 +42,20 @@
         </div>
     </div>
     <% } %>
-    <button>Edit Targets</button>
+    <button id="edit-button">Edit Targets</button>
+</section>
+<section id="target-config" class="division sidebar" style="display: none;">
+    <h2>Edit Targets</h2>
+    <% for (const target in targets) { %>
+    <div class="target-input">
+        <h3><%=target.charAt(0).toUpperCase() + target.slice(1)%></h3>
+        <input type="number" id="<%=target%>BudgetInput" value="<%=targets[target] / 100%>">
+    </div>
+    <% } %>
+    <div id="form-buttons">
+        <button id="save-button">Save</button>
+        <button id="cancel-button">Cancel</button>
+    </div>
 </section>
 </body>
 </html>
