@@ -116,7 +116,7 @@ app.get('/charts', (_, res) => {
 */
 
 app.post('/api/add', (req, res) => {
-    const date = new Date(req.body.date);
+    const date = req.body.date.toString();
     fetch(`http://${process.env.API_HOST}/transaction/add`, {
         method: 'POST',
         headers: {
@@ -124,7 +124,7 @@ app.post('/api/add', (req, res) => {
         },
         body: JSON.stringify({
             id: null,
-            date: `${date.getDate() + 1}-${getStringMonth(date.getMonth()).slice(0, 3)}-${date.getFullYear()}`,
+            date: `${date.slice(8, 10)}-${getStringMonth(parseInt(date.slice(5, 7)) - 1).slice(0, 3)}-${date.slice(0, 4)}`,
             description: req.body.description,
             category: req.body.category,
             amount: req.body.amount
@@ -144,7 +144,7 @@ app.post('/api/add', (req, res) => {
 });
 
 app.post('/api/edit', (req, res) => {
-    const date = new Date(req.body.date);
+    const date = req.body.date.toString();
     fetch(`http://${process.env.API_HOST}/transaction/edit`, {
         method: 'POST',
         headers: {
@@ -152,7 +152,7 @@ app.post('/api/edit', (req, res) => {
         },
         body: JSON.stringify({
             id: req.body.id,
-            date: `${date.getDate() + 1}-${getStringMonth(date.getMonth()).slice(0, 3)}-${date.getFullYear()}`,
+            date: `${date.slice(8, 10)}-${getStringMonth(parseInt(date.slice(5, 7)) - 1).slice(0, 3)}-${date.slice(0, 4)}`,
             description: req.body.description,
             category: req.body.category,
             amount: req.body.amount
