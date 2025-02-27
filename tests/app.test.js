@@ -6,7 +6,7 @@ describe('Test GET /', () => {
         it('should return status 200 and render home page', (done) => {
             // Mock the fetch function so that it returns a successful response without the need for the API
             const originalFetch = global.fetch;
-            global.fetch = () => Promise.resolve({ ok: true, json: () => Promise.resolve({ name: 'Test User', id: 1, transactions: [] }) });
+            global.fetch = () => Promise.resolve({ ok: true, json: () => Promise.resolve({ name: 'Test User', id: 1, transactions: [], targets: [] }) });
             request(app)
                 .get('/')
                 .expect('Content-Type', /html/)
@@ -139,6 +139,43 @@ describe('Test POST /api/edit', () => {
             request(app)
                 .post('/api/edit')
                 .send({ date: '2021-01-01', amount: 100, description: 'Test' })
+                .expect(500)
+                .end((err) => {
+                    global.fetch = originalFetch; // restore the original fetch function
+                    if (err) return done(err);
+                    done();
+                });
+        });
+    });
+});
+
+describe('Test POST /api/target/edit', () => {
+    describe('POST /api/target/edit Successful', () => {
+        it('should return status 200 if target is edited successfully', (done) => {
+            // Mock the fetch function so that it returns a successful response without the need for the API
+            const originalFetch = global.fetch;
+            global.fetch = () => Promise.resolve({ ok: true });
+            request(app)
+                .post('/api/target/edit?uid=1')
+                .send({ target: 100 })
+                .expect(200)
+                .end((err) => {
+                    global.fetch = originalFetch; // restore the original fetch function
+                    if (err) return done(err);
+                    done();
+                });
+        });
+    });
+
+    describe('POST /api/target/edit Failed', () => {
+        it('should return an error if editing a target fails', (done) => {
+            // Mock the fetch function to simulate a failed response
+            const originalFetch = global.fetch;
+            global.fetch = () => Promise.resolve({ ok: false });
+
+            request(app)
+                .post('/api/target/edit?uid=1')
+                .send({ target: 100 })
                 .expect(500)
                 .end((err) => {
                     global.fetch = originalFetch; // restore the original fetch function
