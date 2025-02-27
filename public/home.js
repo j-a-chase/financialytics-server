@@ -25,6 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const percentage = Math.min((monthlyCurrentValue / monthlyBudgetValue) * 100, 100).toFixed(1);
     let progressBarMonthly = document.getElementById('progressBarMonthly');
     progressBarMonthly.style.width = `${percentage}%`;
+    if (percentage >= 100.0) {
+        progressBarMonthly.style.backgroundColor = 'red';
+    }
     monthlyCurrent.innerText = `$${monthlyCurrentValue.toFixed(0)}`;
     monthlyBudget.innerText = `$${monthlyBudgetValue.toFixed(0)}`;
 
