@@ -1,3 +1,10 @@
+/*
+James Chase
+120325
+styles.css
+Universal styles for the project
+*/
+
 * {
     margin: 0;
     padding: 0;
@@ -16,49 +23,7 @@ a {
     text-decoration: none;
 }
 
-/* different sections on the webpage */
-.division {
-    padding: 1rem;
-    margin: .65rem;
-    color: #421f08;
-    background-color: #dafeb7;
-    border: #421f08 0.25rem solid;
-}
-
-/* Main content */
-main#home {
-    width: 70%;
-    height: 100%;
-}
-
-/* spending summary chart */
-#summary h2 {
-    margin-bottom: 1rem;
-}
-
-#chart {
-    background-color: rgba(255, 255, 255, 0.5);
-    width: 90%;
-    margin-left: 5%;
-    padding: 1rem .25rem;
-}
-
-#chart img {
-    width: 36%;
-    height: auto;
-    display: block;
-    margin: auto;
-    border-radius: 5%;
-}
-
-/* recent transactions table */
-
-table#transactions {
-    width: 70%;
-    border-collapse: separate;
-    border-spacing: 0 1.5rem;
-    margin-left: 5%;
-}
+/* table styles */
 
 tr td:first-child {
     border-top-left-radius: 0.75rem;
@@ -77,38 +42,18 @@ td {
     padding: 0.5rem;
 }
 
-/* sidebar */
-.sidebar {
-    width: 30%;
-}
+/* button styles */
 
-.sidebar h2 {
-    margin-bottom: 1rem;
-}
-
-.target {
-    margin: 1rem;
-}
-
-.progress-bar-container {
-    width: 100%;
-    background-color: #e0e0e0;
-    border-radius: 0.5rem;
-    height: 1.25rem;
-    overflow: hidden;
-    position: relative;
-}
-
-.progress-bar {
-    height: 100%;
-    width: 0%;
-    background-color: #4caf50;
-    transition: width 0.5s ease-in-out;
-}
-
-.values {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.875rem;
+button {
+    color: #421f08;
+    background-color: #cf801f;
     font-weight: bold;
+    /* border: none; */
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #f2b90c;
+    cursor: pointer;
 }

@@ -1,0 +1,47 @@
+
+
+body, html {
+    height: 100%;
+}
+
+main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+header {
+    color: #421f08;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #dafeb7;
+    padding: 1rem;
+    margin: 1rem;
+    flex: 1;
+    border: #421f08 solid 5px;
+    max-height: 6rem;
+}
+
+header a img {
+    width: 4rem;
+    height: 4rem;
+    margin-right: -6rem; /* centers h1 */
+    float: left; /* keeps image to go home to the left */
+}
+
+header h1 {
+    margin: 0 auto; /* centers h1 */
+    padding: 1rem;
+}
+
+section {
+    flex: 1;
+    margin: -1rem 1rem 1rem 1rem;
+    padding: 1rem;
+    background-color: #dafeb7;
+    overflow: hidden auto;
+}
