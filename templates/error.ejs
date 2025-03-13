@@ -2,19 +2,14 @@
 <html lang="en">
 <head>
     <%-include('partials/head', { title: title }) %>
+    <link rel="stylesheet" href="/history.css">
 </head>
 <body>
-    <main id="home">
-        <header class="division">
-            <h1><%=title%></h1>
-        </header>
-        <section class="division">
-            <a href="/"><h2>Return to Home</h2></a>
-        </section>
-        <section class="division">
-            <p><%=message%></p>
-        </section>
-    </main>
-    <section id="sidebar" class="division"><%=message%></section>
+<main id="home">
+    <%- include('partials/header', { title: title, goBackLink: link }) %>
+    <section>
+        <h2><%=message%></h2>
+    </section>
+</main>
 </body>
 </html>

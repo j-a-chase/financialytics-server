@@ -72,7 +72,8 @@ app.get('/', (_, res) => {
             }
             res.status(500).render('error', {
                 title: 'Internal Server Error - 500',
-                message: 'Failed to initialize user!'
+                message: 'Failed to initialize user!',
+                link: ''
             });
         });
 });
@@ -100,7 +101,8 @@ app.get('/history', (req, res) => {
             console.error(error);
             res.status(500).render('error', {
                 title: 'Internal Server Error - 500',
-                message: 'Failed to fetch all transactions'
+                message: 'Failed to fetch all transactions',
+                link: ''
             });
         });
 });
@@ -109,7 +111,8 @@ app.get('/details', (req, res) => {
     if (!req.query.tid) {
         res.status(400).render('error', {
             title: 'Bad Request - 400',
-            message: 'Invalid transaction ID'
+            message: 'Invalid transaction ID',
+            link: `history?uid=${process.env.TEST_USER_ID}`
         });
         return;
     }
@@ -128,7 +131,8 @@ app.get('/details', (req, res) => {
             console.error(error);
             res.status(500).render('error', {
                 title: 'Internal Server Error - 500',
-                message: 'Failed to fetch transaction details'
+                message: 'Failed to fetch transaction details',
+                link: `history?uid=${process.env.TEST_USER_ID}`
             });
         })
 });
@@ -235,7 +239,8 @@ app.post('/api/target/edit', (req, res) => {
 app.use((_, res) => {
     res.status(404).render('error', {
         title: 'Not Found - 404',
-        message: "Sorry, the page you are looking for cannot be found."
+        message: "Sorry, the page you are looking for cannot be found.",
+        link: ''
     });
 });
 
