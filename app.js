@@ -9,6 +9,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const { getStringMonth } = require('./utils/getStringMonth');
+const { getMonthNumber } = require('./utils/getMonthNumber');
 
 // main app
 const app = express();
@@ -24,6 +25,9 @@ app.listen(process.env.PORT, () => {
 // register view engine
 app.set('view engine', 'ejs');
 app.set('views', 'templates');
+
+// add helper for ejs
+app.locals.getMonthNumber = getMonthNumber;
 
 // middleware & static files
 app.use(express.static('public'));
@@ -99,6 +103,34 @@ app.get('/history', (req, res) => {
                 message: 'Failed to fetch all transactions'
             });
         });
+});
+
+app.get('/details', (req, res) => {
+    if (!req.query.tid) {
+        res.status(400).render('error', {
+            title: 'Bad Request - 400',
+            message: 'Invalid transaction ID'
+        });
+        return;
+    }
+
+    fetch(`http://${process.env.API_HOST}/transaction/detail?tid=${req.query.tid}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch transaction details');
+            }
+            return response.json();
+        })
+        .then(data => {
+            res.status(200).render('details', { transaction: data });
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).render('error', {
+                title: 'Internal Server Error - 500',
+                message: 'Failed to fetch transaction details'
+            });
+        })
 });
 
 app.get('/charts', (_, res) => {

@@ -1,4 +1,4 @@
-<td><%=transaction.date%></td>
-<td><%=transaction.description%></td>
-<td><%=transaction.category[0].toUpperCase() + transaction.category.slice(1)%></td>
-<td><%=`$${(transaction.amount / 100.0).toFixed(2)}`%></td>
+<td><a href="details?tid=<%=transaction.id%>"><%=transaction.date%></a></td>
+<td><a href="details?tid=<%=transaction.id%>"><%=transaction.description%></a></td>
+<td><a href="details?tid=<%=transaction.id%>"><%=transaction.category[0].toUpperCase() + transaction.category.slice(1)%></a></td>
+<td><a href="details?tid=<%=transaction.id%>"><%=`$${(transaction.amount / 100.0).toFixed(2)}`%></a></td>

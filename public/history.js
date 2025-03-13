@@ -37,10 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', (event) => {
             const tr = event.target.closest('tr');
             const rowChildren = tr.children;
-            const date = rowChildren[0].innerHTML;
-            const description = rowChildren[1].innerHTML;
-            const category = rowChildren[2].innerHTML;
-            const amount = parseFloat(rowChildren[3].innerHTML.slice(1)).toFixed(2);
+            const date = rowChildren[0].firstChild.innerHTML;
+            const description = rowChildren[1].firstChild.innerHTML;
+            const category = rowChildren[2].firstChild.innerHTML;
+            const amount = parseFloat(rowChildren[3].firstChild.innerHTML.slice(1)).toFixed(2);
 
             let dateInput = document.createElement('input');
             dateInput.setAttribute('type', 'date');
