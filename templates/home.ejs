@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include('partials/head', { title: 'Financialytics'}) %>
-    <link rel="stylesheet" href="/home.css">
+    <%- include('partials/head', { title: 'Financialytics', stylesheets: ['styles', 'home']}) %>
     <script src="/home.js" defer></script>
 </head>
 <body data-user="<%=JSON.stringify(user)%>">
