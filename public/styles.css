@@ -44,11 +44,11 @@ main#home {
 }
 
 #chart img {
-    width: 65%;
+    width: 36%;
     height: auto;
     display: block;
     margin: auto;
-    border-radius: 50%;
+    border-radius: 5%;
 }
 
 /* recent transactions table */

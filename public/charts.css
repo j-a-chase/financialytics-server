@@ -30,12 +30,13 @@
     background-color: rgba(255, 255, 255, 0.5);
     margin: 1rem -1rem 0rem 1rem;
     padding: 1rem;
+    width: 100%;
 }
 
 .chart img {
-    width: 50%;
+    width: 25%;
     height: auto;
     display: block;
     margin: auto;
-    border-radius: 50%;
+    border-radius: 5%;
 }

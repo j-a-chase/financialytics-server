@@ -59,7 +59,7 @@ app.get('/', (_, res) => {
             transactions = (data.transactions.length >= 4) ? data.transactions.slice(-3) : data.transactions;
             res.status(200).render('home', {
                 month: getStringMonth(new Date().getMonth()),
-                chart: "chart.jpg",
+                chart: "under-construction.svg",
                 user: user,
                 recentTransactions: transactions,
                 transactions: data.transactions,
@@ -135,9 +135,9 @@ app.get('/details', (req, res) => {
 
 app.get('/charts', (_, res) => {
     const stubCharts = [
-        { name: 'chart1', image: 'chart.jpg' },
-        { name: 'chart2', image: 'chart.jpg' },
-        { name: 'chart3', image: 'chart.jpg' },
+        { name: 'chart1', image: 'under-construction.svg' },
+        { name: 'chart2', image: 'under-construction.svg' },
+        { name: 'chart3', image: 'under-construction.svg' },
     ]
 
     res.status(200).render('charts', { charts: stubCharts });
