@@ -1,4 +1,14 @@
+/*
+James Chase
+120325
+subpage.css
+Universal styles for the subpages in the project
+*/
 
+/* Debugging statement */
+/* body {
+    background: linear-gradient(#000, #000) no-repeat center/2px 100%;
+} */
 
 body, html {
     height: 100%;
