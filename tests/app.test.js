@@ -75,6 +75,43 @@ describe('Test GET /history', () => {
     });
 });
 
+describe('Test GET /details', () => {
+    describe('GET /details Successful', () => {
+        it('should return status 200 and render details page', (done) => {
+            // Mock the fetch function so that it returns a successful response without the need for the API
+            const originalFetch = global.fetch;
+            global.fetch = () => Promise.resolve({ ok: true, json: () => Promise.resolve({id: '1-0', date: '', description: '', category: '', amount: 100, notes: ''}) });
+            request(app)
+                .get('/details?tid=1-0')
+                .expect('Content-Type', /html/)
+                .expect(200)
+                .end((err) => {
+                    global.fetch = originalFetch; // restore the original fetch function
+                    if (err) return done(err);
+                    done();
+                });
+        });
+    });
+
+    describe('GET /details Failed', () => {
+        it('should return an error if fetching transaction details fails', (done) => {
+            // Mock the fetch function to simulate a failed response
+            const originalFetch = global.fetch;
+            global.fetch = () => Promise.resolve({ ok: false });
+
+            request(app)
+                .get('/details?tid=1-0')
+                .expect('Content-Type', /html/)
+                .expect(500)
+                .end((err) => {
+                    global.fetch = originalFetch; // restore the original fetch function
+                    if (err) return done(err);
+                    done();
+                });
+        });
+    });
+});
+
 describe('Test POST /api/add', () => {
     describe('POST /api/add Successful', () => {
         it('should return status 200 if transaction is added successfully', (done) => {
