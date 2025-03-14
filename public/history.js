@@ -1,10 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const addTransaction = document.querySelector('button');
+    const addTransaction = document.querySelector('#add-button');
     addTransaction.addEventListener('click', () => {
         addTransaction.disabled = true;
         let tbody = document.querySelector('table').querySelector('tbody');
         let newTransaction = document.createElement('tr');
         newTransaction.innerHTML = `
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -22,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         amountInput.setAttribute('step', '.01');
         amountInput.setAttribute('min', '0');
         const saveButton = createSaveButton(dateInput, descriptionInput, categoryInput, amountInput);
+        const cancelButton = createCancelButton();
 
         let tableData = newTransaction.querySelectorAll('td');
         tableData[0].appendChild(dateInput);
@@ -29,7 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
         tableData[2].appendChild(categoryInput);
         tableData[3].appendChild(amountInput);
         tableData[4].appendChild(saveButton);
-        tbody.appendChild(newTransaction);
+        tableData[5].appendChild(cancelButton);
+        tbody.insertBefore(newTransaction, tbody.childNodes[0]);
     });
 
     const editButtons = document.querySelectorAll('.edit-button');
@@ -57,18 +60,41 @@ document.addEventListener('DOMContentLoaded', () => {
             amountInput.setAttribute('min', '0');
             amountInput.value = amount;
             const saveButton = createSaveButton(dateInput, descriptionInput, categoryInput, amountInput, false, tr);
+            const cancelButton = createCancelButton();
 
             rowChildren[0].innerHTML = '';
             rowChildren[1].innerHTML = '';
             rowChildren[2].innerHTML = '';
             rowChildren[3].innerHTML = '';
             rowChildren[4].innerHTML = '';
+            rowChildren[5].innerHTML = '';
 
             rowChildren[0].appendChild(dateInput);
             rowChildren[1].appendChild(descriptionInput);
             rowChildren[2].appendChild(categoryInput);
             rowChildren[3].appendChild(amountInput);
             rowChildren[4].appendChild(saveButton);
+            rowChildren[5].appendChild(cancelButton);
+        });
+    });
+
+    const deleteButtons = document.querySelectorAll('.delete-button');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            const tr = event.target.closest('tr');
+            const id = tr.getAttribute('data-transaction');
+            fetch(`/api/delete?tid=${id}`, { method: 'DELETE' })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to delete transaction');
+                    }
+                    return response.text();
+                })
+                .then(_ => location.reload())
+                .catch(error => {
+                    console.error(error)
+                    alert('Failed to delete transaction! Verify your connection and try again.');
+                });
         });
     });
 });
@@ -106,6 +132,13 @@ createSaveButton = (
     });
 
     return saveButton;
+};
+
+createCancelButton = () => {
+    let cancelButton = document.createElement('button');
+    cancelButton.innerText = 'Cancel';
+    cancelButton.addEventListener('click', () => location.reload());
+    return cancelButton;
 };
 
 getMonthNumber = (month) => {

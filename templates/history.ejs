@@ -15,21 +15,16 @@
             <th>Description</th>
             <th>Category</th>
             <th>Amount</th>
+            <th><button id="add-button">Add Transaction</button></th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td></td>
-            <td></td>
-            <td><button>Add Transaction</button></td>
-            <td></td>
-            <td></td>
-        </tr>
         <% for (const transaction of transactions.reverse()) { %>
             <tr data-transaction="<%=transaction.id%>">
                 <%- include('partials/transaction', { transaction }) %>
                 <td><button class="edit-button">Edit Transaction</button></td>
+                <td><button class="delete-button">Delete</button></td>
             </tr>
         <% } %>
     </tbody>

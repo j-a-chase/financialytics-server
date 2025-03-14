@@ -1,7 +1,9 @@
-/* Debugging statement */
-/* body {
-    background: linear-gradient(#000, #000) no-repeat center/2px 100%;
-} */
+/*
+James Chase
+120325
+history.css
+Styles for the history page
+*/
 
 table {
     text-align: center;
@@ -26,10 +28,19 @@ tr:nth-child(even) td {
     background-color: #e0845c;
 }
 
-button:disabled {
+#add-button {
+    background-color: #f1c463; /*cf801f*/
+    margin-bottom: .25rem;
+}
+
+#add-button:hover {
+    background-color: #f2b90c;
+}
+
+#add-button:disabled {
     background-color: #ccc;
 }
 
-button:hover:disabled {
+#add-button:hover:disabled {
     cursor: not-allowed;
 }

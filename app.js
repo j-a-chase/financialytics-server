@@ -235,6 +235,25 @@ app.post('/api/target/edit', (req, res) => {
         });
 });
 
+/*
+    DELETE ENDPOINTS
+*/
+
+app.delete('/api/delete', (req, res) => {
+    fetch(`http://${process.env.API_HOST}/transaction/delete?tid=${req.query.tid}`, { method: 'DELETE' })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to delete transaction');
+            }
+            return response.body;
+        })
+        .then(data => res.status(200).send(data))
+        .catch(error => {
+            console.error(error);
+            res.status(500).send('Failed to delete transaction');
+        });
+});
+
 // 404 page
 // app.use runs in file order, so this should always be last, as it should only
 // be reached if no other routes match
