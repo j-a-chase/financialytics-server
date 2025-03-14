@@ -2,32 +2,33 @@
 <html lang="en">
 <head>
     <%- include('partials/head', { title: 'Transaction Details', stylesheets: ['styles', 'subpage', 'details'] }) %>
+    <script src="/details.js" defer></script>
 </head>
 <body>
-<main>
+<main data-tid="<%=transaction.id%>">
 <%- include('partials/header', { title: 'Transaction Details', goBackLink: `history?uid=${transaction.id[0]}` }) %>
 <section>
     <div id="date">
         <h2>Date:</h2>
-        <input type="date" value="<%=`${transaction.date.split('-')[2]}-${getMonthNumber(transaction.date.split('-')[1])}-${transaction.date.split('-')[0]}`%>">
+        <input id="date-content" type="date" value="<%=`${transaction.date.split('-')[2]}-${getMonthNumber(transaction.date.split('-')[1])}-${transaction.date.split('-')[0]}`%>">
     </div>
     <div id="description">
         <h2>Description:</h2>
-        <input type="text" value="<%=transaction.description%>">
+        <input id="description-content" type="text" value="<%=transaction.description%>">
     </div>
     <div id="category">
         <h2>Category:</h2>
-        <select value="<%=transaction.category%>">
+        <select id="category-content" value="<%=transaction.category%>">
             <%- include('partials/categories') %>
         </select>
     </div>
     <div id="amount">
         <h2>Amount:</h2>
-        <input type="number" value="<%=(transaction.amount / 100.0).toFixed(2)%>" min="0" step="0.01">
+        <input id="amount-content" type="number" value="<%=(transaction.amount / 100.0).toFixed(2)%>" min="0" step="0.01">
     </div>
     <div id="notes">
         <h2>Notes:</h2>
-        <textarea><%=transaction.notes%></textarea>
+        <textarea id="notes-content"><%=transaction.notes%></textarea>
     </div>
     <button id="save-button">Save</button>
 </section>

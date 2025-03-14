@@ -181,6 +181,7 @@ app.post('/api/add', (req, res) => {
 
 app.post('/api/edit', (req, res) => {
     const date = req.body.date.toString();
+    const notes = req.body.notes ? req.body.notes : '';
     fetch(`http://${process.env.API_HOST}/transaction/edit`, {
         method: 'POST',
         headers: {
@@ -191,7 +192,8 @@ app.post('/api/edit', (req, res) => {
             date: `${date.slice(8, 10)}-${getStringMonth(parseInt(date.slice(5, 7)) - 1).slice(0, 3)}-${date.slice(0, 4)}`,
             description: req.body.description,
             category: req.body.category,
-            amount: req.body.amount
+            amount: req.body.amount,
+            notes: notes
         })
     })
         .then(response => {
