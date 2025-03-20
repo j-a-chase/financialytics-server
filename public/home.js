@@ -54,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+        // update targets
         fetch(`/api/target/edit?uid=${uid}`, {
             method: 'POST',
             headers: {
@@ -71,6 +72,27 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(error => {
                 console.error(error);
                 alert('Failed to edit target!');
+            });
+        
+        // update leniency
+        const leniency = document.getElementById('leniency-selector').value.toUpperCase();
+        fetch('api/leniency/edit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({uid: uid, leniency: leniency})
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to edit leniency');
+                }
+                return response.body;
+            })
+            .then(_ => location.reload())
+            .catch(error => {
+                console.error(error);
+                alert('Failed to edit leniency!');
             });
     });
 });

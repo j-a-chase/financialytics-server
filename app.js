@@ -10,6 +10,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const { getStringMonth } = require('./utils/getStringMonth');
 const { getMonthNumber } = require('./utils/getMonthNumber');
+const { getLeniencyValue, leniencyLevels } = require('./utils/getLeniencyValue');
 
 // main app
 const app = express();
@@ -26,8 +27,9 @@ app.listen(process.env.PORT, () => {
 app.set('view engine', 'ejs');
 app.set('views', 'templates');
 
-// add helper for ejs
+// add helpers for ejs
 app.locals.getMonthNumber = getMonthNumber;
+app.locals.getLeniencyValue = getLeniencyValue;
 
 // middleware & static files
 app.use(express.static('public'));
@@ -63,7 +65,8 @@ app.get('/', (_, res) => {
                 user: user,
                 recentTransactions: transactions,
                 transactions: data.transactions,
-                targets: data.targets
+                targets: data.targets,
+                leniency: data.budgetLeniency.toLowerCase()
             });
         })
         .catch(error => {
@@ -232,6 +235,32 @@ app.post('/api/target/edit', (req, res) => {
         .catch(error => {
             console.error(error);
             res.status(500).send('Failed to edit target');
+        });
+});
+
+app.post('/api/leniency/edit', (req, res) => {
+    if (!parseInt(req.body.uid) || !leniencyLevels.includes(req.body.leniency)) {
+        res.status(400).send('Invalid request!');
+        return;
+    }
+
+    fetch(`http://${process.env.API_HOST}/user/leniency?uid=${req.body.uid}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(req.body.leniency)
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to edit leniency');
+            }
+            return response.body;
+        })
+        .then(data => res.status(200).send(data))
+        .catch(error => {
+            console.error(error);
+            res.status(500).send('Failed to edit leniency');
         });
 });
 

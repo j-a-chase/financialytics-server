@@ -94,6 +94,14 @@ table#transactions {
     margin: 0rem 0rem 0.5rem 1rem;
 }
 
+.target-input input {
+    width: 35%;
+}
+
+#leniency-selector {
+    width: 35%;
+}
+
 #form-buttons {
     display: flex;
     flex-direction: row;

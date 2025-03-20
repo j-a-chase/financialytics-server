@@ -34,9 +34,9 @@
             <div class="progress-bar" id="progressBarMonthly"></div>
         </div>
         <div class="values">
-            <% const { income, ...nonIncomeTargets } = targets%>
+            <% const { income, ...nonIncomeTargets } = targets %>
             <span id="monthlyCurrent">$<%=transactions.filter(transaction => transaction.category !== "income").reduce((acc, transaction) => acc + transaction.amount, 0) / 100%></span>
-            <span id="monthlyBudget">$<%=Object.values(nonIncomeTargets).reduce((acc, target) => acc + target, 0) / 100%></span>
+            <span id="monthlyBudget">$<%=(Object.values(nonIncomeTargets).reduce((acc, target) => acc + target, 0) / 100) * getLeniencyValue(leniency)%></span>
         </div>
     </div>
     <% for (const target in targets) { %>
@@ -56,6 +56,14 @@
 </section>
 <section id="target-config" class="division sidebar" style="display: none;">
     <h2>Edit Targets</h2>
+    <div id="leniency" class="target-input">
+        <h3>Monthly Budget Leniency</h3>
+        <select id="leniency-selector">
+            <option value="lenient" <%= leniency === 'lenient' ? 'selected' : ''%>>Lenient</option>
+            <option value="normal" <%= leniency === 'normal' ? 'selected' : ''%>>Normal</option>
+            <option value="strict" <%= leniency === 'strict' ? 'selected' : ''%>>Strict</option>
+        </select>
+    </div>
     <% for (const target in targets) { %>
     <div class="target-input">
         <h3><%=target.charAt(0).toUpperCase() + target.slice(1)%></h3>
