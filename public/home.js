@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let budgetSpan = document.getElementById(`${category}Budget`);
         const current = parseFloat(currentSpan.getAttribute(`data-${category}`));
         const budget = parseFloat(budgetSpan.getAttribute('data-budget'));
-        const progressPercentage = Math.min((current / budget) * 100, 100).toFixed(1);
+        const progressPercentage = Math.min((current / budget) * 100, 100).toFixed(2);
 
         let progressBar = document.getElementById(`progressBar${category.charAt(0).toUpperCase()}${category.slice(1)}`);
 
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let monthlyBudget = document.getElementById('monthlyBudget');
     const monthlyCurrentValue = parseFloat(monthlyCurrent.innerText.slice(1));
     const monthlyBudgetValue = parseFloat(monthlyBudget.innerText.slice(1));
-    const percentage = Math.min((monthlyCurrentValue / monthlyBudgetValue) * 100, 100).toFixed(1);
+    const percentage = Math.min((monthlyCurrentValue / monthlyBudgetValue) * 100, 100).toFixed(2);
     let progressBarMonthly = document.getElementById('progressBarMonthly');
     progressBarMonthly.style.width = `${percentage}%`;
     if (percentage >= 100.0) {
