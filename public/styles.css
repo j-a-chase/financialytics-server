@@ -23,6 +23,16 @@ a {
     text-decoration: none;
 }
 
+/* home page general styles (home/settings) */
+
+.division {
+    padding: 1rem;
+    margin: .65rem .65rem 0 .65rem;
+    color: #421f08;
+    background-color: #dafeb7;
+    border: #421f08 0.25rem solid;
+}
+
 /* table styles */
 
 tr td:first-child {

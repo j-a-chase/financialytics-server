@@ -1,0 +1,45 @@
+main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+img {
+    width: 3%;
+    cursor: pointer;
+}
+
+h2 {
+    margin-bottom: 1rem;
+}
+
+table {
+    margin-left: 1rem;
+}
+
+th {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+input:disabled {
+    background-color: #fff;
+}
+
+#button-row td {
+    background-color: transparent;
+    text-align: center;
+}
+
+/* #button-row td:nth-child(2) {
+    text-align: right;
+} */
+

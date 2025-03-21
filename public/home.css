@@ -4,15 +4,6 @@ main#home {
     height: 100%;
 }
 
-/* different sections on the home page */
-.division {
-    padding: 1rem;
-    margin: .65rem;
-    color: #421f08;
-    background-color: #dafeb7;
-    border: #421f08 0.25rem solid;
-}
-
 /* spending summary chart */
 #summary h2 {
     margin-bottom: 1rem;
@@ -43,6 +34,20 @@ table#transactions {
 }
 
 /* sidebar */
+
+#target-panel-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* margin-bottom: 1rem; */
+}
+
+#menu-icon {
+    width: 10%;
+    margin-top: -1rem;
+    margin-right: -0.5rem;
+    cursor: pointer;
+}
 
 .sidebar {
     width: 30%;

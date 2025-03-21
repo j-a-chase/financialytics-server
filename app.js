@@ -81,6 +81,29 @@ app.get('/', (_, res) => {
         });
 });
 
+// currently reuses initialization endpoint, but will need changed
+// when program is scaled to more than one local user.
+app.get('/menu', (_, res) => {
+    fetch(`http://${process.env.API_HOST}/user/initialize?uid=${process.env.TEST_USER_ID}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to initialize user!');
+            }
+            return response.json();
+        })
+        .then(user => res.status(200).render('settings', { user: user }))
+        .catch(error => {
+            if (process.env.NODE_ENV === 'development') {
+                console.error(error);
+            }
+            res.status(500).render('error', {
+                title: 'Internal Server Error - 500',
+                message: 'Failed to initialize user!',
+                link: ''
+            });
+        });
+});
+
 app.get('/history', (req, res) => {
     if (!parseInt(req.query.uid)) {
         res.status(400).render('error', {
@@ -235,6 +258,34 @@ app.post('/api/target/edit', (req, res) => {
         .catch(error => {
             console.error(error);
             res.status(500).send('Failed to edit target');
+        });
+});
+
+// this endpoint is different from above due to it being able to add
+// addition targets, rather than just edit existing ones
+app.post('/api/target/update', (req, res) => {
+    if (!parseInt(req.query.uid)) {
+        res.status(400).send('Invalid request!');
+        return;
+    }
+
+    fetch(`http://${process.env.API_HOST}/user/targets/update?uid=${req.query.uid}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(req.body)
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to update target');
+            }
+            return response.body;
+        })
+        .then(data => res.status(200).send(data))
+        .catch(error => {
+            console.error(error);
+            res.status(500).send('Failed to update target');
         });
 });
 

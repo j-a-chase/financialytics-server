@@ -95,4 +95,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Failed to edit leniency!');
             });
     });
+
+    document.getElementById('menu-icon').addEventListener('click', () => {
+        location.href = '/menu';
+    });
 });
