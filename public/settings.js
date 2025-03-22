@@ -6,12 +6,20 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = '/';
     });
 
+    document.querySelectorAll('.delete-button').forEach(button => {
+        button.addEventListener('click', (event) => {
+            const row = event.target.closest('tr');
+            row.remove();
+        });
+    });
+
     document.getElementById('add-button').addEventListener('click', () => {
         const tableBody = document.querySelector('tbody');
         const buttonRow = tableBody.rows[tableBody.rows.length - 1];
         const row = tableBody.insertBefore(document.createElement('tr'), buttonRow);
         const text = row.insertCell(0);
         const value = row.insertCell(1);
+        const cancel = row.insertCell(2);
 
         const textInput = document.createElement('input');
         textInput.type = 'text';
@@ -21,9 +29,14 @@ document.addEventListener('DOMContentLoaded', () => {
         valueInput.classList = 'value-input';
         valueInput.min = 0;
         valueInput.step = 0.01;
+        const cancelButton = document.createElement('button');
+        cancelButton.innerText = 'Cancel';
+        cancelButton.classList = 'cancel-button';
+        cancelButton.addEventListener('click', () => row.remove());
 
         text.appendChild(textInput);
         value.appendChild(valueInput);
+        cancel.appendChild(cancelButton);
     });
 
     document.getElementById('save-button').addEventListener('click', () => {
