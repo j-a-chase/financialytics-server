@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            targets[text.toLowerCase()] = parseInt(parseFloat(value) * 100);
+            targets[text.toLowerCase().replace(' ', '')] = parseInt(parseFloat(value) * 100);
         }
 
         const uid = document.querySelector('body').getAttribute('data-user');
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 return response.text();
             })
-            .then(_ => location.reload())
+            .then(_ => location.href = '/')
             .catch(error => {
                 console.error(error);
                 alert('Error saving settings.');
