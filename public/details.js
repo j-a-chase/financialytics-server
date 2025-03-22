@@ -5,7 +5,30 @@
  * Front-end js for the details page of a transaction
 */
 
-document.addEventListener('DOMContentLoaded', () => {
+const getCategoryString = async uid => {
+    return fetch(`/api/targets?uid=${uid}`, { method: 'GET' })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to fetch categories');
+        }
+        return response.json();
+    })
+    .then(data => {
+        options = '';
+        Object.keys(data).forEach(target => {
+            options += `<option value="${target}">${target[0].toUpperCase() + target.slice(1)}</option>`;
+        })
+        return options;
+    })
+    .catch(error => console.error(error));
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const uid = document.querySelector('main').getAttribute('data-tid').split('-')[0];
+    const categoryString = await getCategoryString(uid);
+
+    document.getElementById('category-content').innerHTML = categoryString;
+
     const saveButton = document.getElementById('save-button');
     saveButton.addEventListener('click', () => {
         const tid = document.querySelector('main').getAttribute('data-tid');

@@ -6,7 +6,7 @@
 </head>
 <body>
 <main data-tid="<%=transaction.id%>">
-<%- include('partials/header', { title: 'Transaction Details', goBackLink: `history?uid=${transaction.id[0]}` }) %>
+<%- include('partials/header', { title: 'Transaction Details', goBackLink: `history?uid=${transaction.id.split('-')[0]}` }) %>
 <section>
     <div id="date">
         <h2>Date:</h2>
@@ -19,7 +19,7 @@
     <div id="category">
         <h2>Category:</h2>
         <select id="category-content" value="<%=transaction.category%>">
-            <%- include('partials/categories') %>
+            <!-- Filled dynamically via API -->
         </select>
     </div>
     <div id="amount">
