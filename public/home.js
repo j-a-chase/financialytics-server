@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const categories = ['income', 'food', 'living', 'entertainment', 'supplies', 'education', 'other'];
+    const categories = document.querySelector('body').getAttribute('data-targets').split(',');
 
     categories.forEach(category => {
         let currentSpan = document.getElementById(`${category}Current`);

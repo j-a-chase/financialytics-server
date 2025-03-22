@@ -4,7 +4,7 @@
     <%- include('partials/head', { title: 'Financialytics', stylesheets: ['styles', 'home']}) %>
     <script src="/home.js" defer></script>
 </head>
-<body data-user="<%=JSON.stringify(user)%>">
+<body data-user="<%=JSON.stringify(user)%>" data-targets="<%=Object.keys(targets).join(',')%>">
 <main id="home">
     <header class="division">
         <h1>Financialytics</h1>
