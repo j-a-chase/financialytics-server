@@ -1,4 +1,25 @@
-document.addEventListener('DOMContentLoaded', () => {
+const getCategoryString = async uid => {
+    return fetch(`/api/targets?uid=${uid}`, { method: 'GET' })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to fetch categories');
+        }
+        return response.json();
+    })
+    .then(data => {
+        options = '';
+        Object.keys(data).forEach(target => {
+            options += `<option value="${target}">${target[0].toUpperCase() + target.slice(1)}</option>`;
+        })
+        return options;
+    })
+    .catch(error => console.error(error));
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const uid = document.querySelector('body').getAttribute('data-user');
+    const categoryString = await getCategoryString(uid);
+
     const addTransaction = document.querySelector('#add-button');
     addTransaction.addEventListener('click', () => {
         addTransaction.disabled = true;
@@ -17,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let descriptionInput = document.createElement('input')
         descriptionInput.setAttribute('type', 'text');
         let categoryInput = document.createElement('select');
-        categoryInput.innerHTML = getCategoryString();
+        categoryInput.innerHTML = categoryString;
         let amountInput = document.createElement('input');
         amountInput.setAttribute('type', 'number');
         amountInput.setAttribute('step', '.01');
@@ -52,8 +73,9 @@ document.addEventListener('DOMContentLoaded', () => {
             descriptionInput.setAttribute('type', 'text');
             descriptionInput.value = description;
             let categoryInput = document.createElement('select');
-            categoryInput.innerHTML = getCategoryString();
+            categoryInput.innerHTML = categoryString;
             categoryInput.value = category.toLowerCase();
+            console.log(categoryInput);
             let amountInput = document.createElement('input');
             amountInput.setAttribute('type', 'number');
             amountInput.setAttribute('step', '.01');
@@ -169,15 +191,3 @@ getMonthNumber = (month) => {
             return '12';
     }
 };
-
-getCategoryString = () => {
-    return `
-        <option value="income">Income</option>
-        <option value="food">Food</option>
-        <option value="living">Living</option>
-        <option value="entertainment">Entertainment</option>
-        <option value="supplies">Supplies</option>
-        <option value="education">Education</option>
-        <option value="other">Other</option>
-    `;
-}

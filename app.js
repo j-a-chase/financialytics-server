@@ -121,7 +121,7 @@ app.get('/history', (req, res) => {
             return response.json();
         })
         .then(data => {
-            res.status(200).render('history', { transactions: data });
+            res.status(200).render('history', { uid: req.query.uid, transactions: data });
         })
         .catch(error => {
             console.error(error);
@@ -161,6 +161,26 @@ app.get('/details', (req, res) => {
                 link: `history?uid=${process.env.TEST_USER_ID}`
             });
         })
+});
+
+app.get('/api/targets', (req, res) => {
+    if (!parseInt(req.query.uid)) {
+        res.status(400).send('Invalid request!');
+        return;
+    }
+
+    fetch(`http://${process.env.API_HOST}/user/targets?uid=${req.query.uid}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch targets');
+            }
+            return response.json();
+        })
+        .then(data => res.status(200).send(data))
+        .catch(error => {
+            console.error(error);
+            res.status(500).send('Failed to fetch targets');
+        });
 });
 
 app.get('/charts', (_, res) => {

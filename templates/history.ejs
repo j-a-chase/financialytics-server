@@ -4,7 +4,7 @@
     <%- include('partials/head', { title: 'History', stylesheets: ['styles', 'subpage', 'history'] }) %>
     <script src="/history.js" defer></script>
 </head>
-<body>
+<body data-user="<%=uid%>">
 <main>
 <%- include('partials/header', { title: 'Transaction History', goBackLink: "" }) %>
 <section>
