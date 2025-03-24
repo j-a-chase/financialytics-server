@@ -1,6 +1,17 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    const uid = document.querySelector('body').getAttribute('data-user');
+    
     const incomeLabel = document.querySelector('input');
     incomeLabel.disabled = true;
+
+    const transactionCategories = new Set();
+    (await getUserTransactions(uid)).forEach(transaction => transactionCategories.add(transaction.category.toLowerCase()));
+
+    document.querySelectorAll('.text-input').forEach(textInput => {
+        if (transactionCategories.has(textInput.value.toLowerCase())) {
+            textInput.disabled = true;
+        }
+    });
 
     document.getElementById('go-back').addEventListener('click', () => {
         window.location.href = '/';
@@ -58,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
             targets[text.toLowerCase()] = parseInt(parseFloat(value) * 100);
         }
 
-        const uid = document.querySelector('body').getAttribute('data-user');
         fetch(`/api/target/update?uid=${uid}`, {
             method: 'POST',
             headers: {
@@ -79,3 +89,17 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     });
 });
+
+const getUserTransactions = async uid => {
+    return await fetch(`/api/transactions?uid=${uid}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error fetching transactions.');
+            }
+            return response.json();
+        })
+        .catch(error => {
+            console.error(error);
+            alert('Error fetching transactions.');
+        });
+};

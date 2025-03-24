@@ -21,7 +21,16 @@ h2 {
     margin-bottom: 1rem;
 }
 
+span {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 1rem;
+    padding: 0.5rem 2rem;
+    background-color: #f2b90c;
+}
+
 table {
+    margin-top: 1rem;
     margin-left: 1rem;
     border-collapse: separate;
     border-spacing: 0;

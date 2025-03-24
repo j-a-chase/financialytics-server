@@ -93,7 +93,10 @@ app.get('/menu', (_, res) => {
             }
             return response.json();
         })
-        .then(user => res.status(200).render('settings', { user: user }))
+        .then(user => {
+            const categories = new Set(user.transactions.map(transaction => transaction.category));
+            res.status(200).render('settings', { user: user, categories: categories});
+        })
         .catch(error => {
             if (process.env.NODE_ENV === 'development') {
                 console.error(error);
@@ -163,6 +166,26 @@ app.get('/details', (req, res) => {
                 link: `history?uid=${process.env.TEST_USER_ID}`
             });
         })
+});
+
+app.get('/api/transactions', (req, res) => {
+    if (!parseInt(req.query.uid)) {
+        res.status(400).send('Invalid request!');
+        return;
+    }
+
+    fetch(`http://${process.env.API_HOST}/transaction/all?uid=${req.query.uid}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch transactions');
+            }
+            return response.json();
+        })
+        .then(data => res.status(200).send(data))
+        .catch(error => {
+            console.error(error);
+            res.status(500).send('Failed to fetch transactions');
+        });
 });
 
 app.get('/api/targets', (req, res) => {
