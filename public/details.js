@@ -27,7 +27,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     const uid = document.querySelector('main').getAttribute('data-tid').split('-')[0];
     const categoryString = await getCategoryString(uid);
 
-    document.getElementById('category-content').innerHTML = categoryString;
+    // value has to be set via JS, not built into the template for select element
+    const categoryContent = document.getElementById('category-content');
+    const categoryValue = categoryContent.getAttribute('data-category');
+    categoryContent.innerHTML = categoryString;
+    categoryContent.value = categoryValue;
 
     const saveButton = document.getElementById('save-button');
     saveButton.addEventListener('click', () => {
