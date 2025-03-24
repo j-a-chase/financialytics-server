@@ -9,7 +9,7 @@ const getCategoryString = async uid => {
     .then(data => {
         options = '';
         Object.keys(data).forEach(target => {
-            options += `<option value="${target}">${target[0].toUpperCase() + target.slice(1)}</option>`;
+            options += `<option value="${target}">${toTitleCase(target)}</option>`;
         })
         return options;
     })
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 });
 
-createSaveButton = (
+const createSaveButton = (
     dateInput, descriptionInput, categoryInput,
     amountInput, isAdding=true, tableRow=null
 ) => {
@@ -156,14 +156,14 @@ createSaveButton = (
     return saveButton;
 };
 
-createCancelButton = () => {
+const createCancelButton = () => {
     let cancelButton = document.createElement('button');
     cancelButton.innerText = 'Cancel';
     cancelButton.addEventListener('click', () => location.reload());
     return cancelButton;
 };
 
-getMonthNumber = (month) => {
+const getMonthNumber = month => {
     switch (month) {
         case 'Jan':
             return '01';
@@ -191,3 +191,7 @@ getMonthNumber = (month) => {
             return '12';
     }
 };
+
+const toTitleCase = str => {
+    return str.split(' ').map(s => s[0].toUpperCase() + s.slice(1)).join(' ');
+}

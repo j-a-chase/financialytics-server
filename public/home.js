@@ -2,13 +2,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const categories = document.querySelector('body').getAttribute('data-targets').split(',');
 
     categories.forEach(category => {
-        let currentSpan = document.getElementById(`${category}Current`);
-        let budgetSpan = document.getElementById(`${category}Budget`);
-        const current = parseFloat(currentSpan.getAttribute(`data-${category}`));
+        const trimmedCategory = category.replace(' ', '');
+        let currentSpan = document.getElementById(`${trimmedCategory}Current`);
+        let budgetSpan = document.getElementById(`${trimmedCategory}Budget`);
+        const current = parseFloat(currentSpan.getAttribute(`data-${trimmedCategory}`));
         const budget = parseFloat(budgetSpan.getAttribute('data-budget'));
         const progressPercentage = Math.min((current / budget) * 100, 100).toFixed(2);
 
-        let progressBar = document.getElementById(`progressBar${category.charAt(0).toUpperCase()}${category.slice(1)}`);
+        let progressBar = document.getElementById(`progressBar${trimmedCategory}`);
 
         progressBar.style.width = `${progressPercentage}%`;
         if (progressPercentage >= 100.0) {
@@ -46,8 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const uid = JSON.parse(document.querySelector('body').getAttribute('data-user')).id;
         let targetMap = {};
         for (const category of categories) {
-            const targetInput = document.getElementById(`${category}BudgetInput`);
-            const originalTarget = parseInt(document.getElementById(`${category}Budget`).getAttribute('data-budget')) * 100;
+            const trimmedCategory = category.replace(' ', '');
+            const targetInput = document.getElementById(`${trimmedCategory}BudgetInput`);
+            const originalTarget = parseInt(document.getElementById(`${trimmedCategory}Budget`).getAttribute('data-budget')) * 100;
             const target = parseInt(targetInput.value) * 100;
             if (target !== originalTarget) {
                 targetMap[category] = target;

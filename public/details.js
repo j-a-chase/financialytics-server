@@ -16,7 +16,7 @@ const getCategoryString = async uid => {
     .then(data => {
         options = '';
         Object.keys(data).forEach(target => {
-            options += `<option value="${target}">${target[0].toUpperCase() + target.slice(1)}</option>`;
+            options += `<option value="${target}">${toTitleCase(target)}</option>`;
         })
         return options;
     })
@@ -69,3 +69,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
     });
 });
+
+const toTitleCase = str => {
+    return str.split(' ').map(s => s[0].toUpperCase() + s.slice(1)).join(' ');
+}

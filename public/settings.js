@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            targets[text.toLowerCase().replace(' ', '')] = parseInt(parseFloat(value) * 100);
+            targets[text.toLowerCase()] = parseInt(parseFloat(value) * 100);
         }
 
         const uid = document.querySelector('body').getAttribute('data-user');

@@ -11,6 +11,7 @@ const dotenv = require('dotenv');
 const { getStringMonth } = require('./utils/getStringMonth');
 const { getMonthNumber } = require('./utils/getMonthNumber');
 const { getLeniencyValue, leniencyLevels } = require('./utils/getLeniencyValue');
+const { toTitleCase } = require('./utils/toTitleCase');
 
 // main app
 const app = express();
@@ -30,6 +31,7 @@ app.set('views', 'templates');
 // add helpers for ejs
 app.locals.getMonthNumber = getMonthNumber;
 app.locals.getLeniencyValue = getLeniencyValue;
+app.locals.toTitleCase = toTitleCase;
 
 // middleware & static files
 app.use(express.static('public'));
