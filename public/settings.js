@@ -4,6 +4,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     const incomeLabel = document.querySelector('input');
     incomeLabel.disabled = true;
 
+    const incomeIncluded = document.getElementById('income').children[2].children[0];
+    console.log(document.getElementById('income').children[2].innerHTML);
+    console.log(incomeIncluded);
+    incomeIncluded.disabled = true;
+
     const transactionCategories = new Set();
     (await getUserTransactions(uid)).forEach(transaction => transactionCategories.add(transaction.category.toLowerCase()));
 
@@ -30,7 +35,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const row = tableBody.insertBefore(document.createElement('tr'), buttonRow);
         const text = row.insertCell(0);
         const value = row.insertCell(1);
-        const cancel = row.insertCell(2);
+        const included = row.insertCell(2);
+        const cancel = row.insertCell(3);
 
         const textInput = document.createElement('input');
         textInput.type = 'text';
@@ -40,6 +46,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         valueInput.classList = 'value-input';
         valueInput.min = 0;
         valueInput.step = 0.01;
+        const includedInput = document.createElement('input');
+        includedInput.type = 'checkbox';
+        includedInput.classList = 'included-input';
+        includedInput.checked = true;
         const cancelButton = document.createElement('button');
         cancelButton.innerText = 'Cancel';
         cancelButton.classList = 'cancel-button';
@@ -47,12 +57,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         text.appendChild(textInput);
         value.appendChild(valueInput);
+        included.appendChild(includedInput);
         cancel.appendChild(cancelButton);
     });
 
     document.getElementById('save-button').addEventListener('click', () => {
         const textInputs = document.querySelectorAll('.text-input');
         const valueInputs = document.querySelectorAll('.value-input');
+        const includedInputs = document.querySelectorAll('.included-input');
         const rows = document.querySelector('tbody').rows.length - 1; // it's including the button row
 
         let targets = [];
@@ -60,13 +72,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         for (let i = 0; i < rows; i++) {
             const text = textInputs[i].value;
             const value = valueInputs[i].value;
+            const included = includedInputs[i].checked;
 
             if (text === '' || value === '') {
                 alert('Please fill in all fields.');
                 return;
             }
 
-            targets.push({id: null, name: text.toLowerCase(), amount: parseInt(parseFloat(value) * 100), included: false});
+            targets.push({
+                id: null,
+                name: text.toLowerCase(),
+                amount: parseInt(parseFloat(value) * 100),
+                included: included
+            });
         }
 
         fetch(`/api/target/update?uid=${uid}`, {
