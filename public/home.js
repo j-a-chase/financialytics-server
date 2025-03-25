@@ -1,6 +1,15 @@
+/**
+ * home.js
+ * James Chase
+ * 240325
+ * Client-side script for the home page.
+*/
+
 document.addEventListener('DOMContentLoaded', () => {
+    // get list of categories
     const categories = document.querySelector('body').getAttribute('data-targets').split(',');
 
+    // calculate progress bar values for each category
     categories.forEach(category => {
         const trimmedCategory = category.replaceAll(' ', '');
         let currentSpan = document.getElementById(`${trimmedCategory}Current`);
@@ -19,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         budgetSpan.innerText = `$${budget.toFixed(0)}`;
     });
 
+    // calculate progress bar values for monthly budget
     let monthlyCurrent = document.getElementById('monthlyCurrent');
     let monthlyBudget = document.getElementById('monthlyBudget');
     const monthlyCurrentValue = parseFloat(monthlyCurrent.innerText.slice(1));
@@ -32,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     monthlyCurrent.innerText = `$${monthlyCurrentValue.toFixed(0)}`;
     monthlyBudget.innerText = `$${monthlyBudgetValue.toFixed(0)}`;
 
+    // swap from the target sidebar to the edit sidebar
     document.getElementById('edit-button').addEventListener('click', () => {
         const configPanel = document.querySelector('#target-config');
         configPanel.style.display = 'flex';
@@ -45,6 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('save-button').addEventListener('click', () => {
         const uid = document.querySelector('body').getAttribute('data-user');
+
+        // create list of targets that need updating
         let targetList = [];
         for (const category of categories) {
             const trimmedCategory = category.replaceAll(' ', '');
@@ -104,6 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     });
 
+    // add event listener to menu icon to give it the appearance of a button
     document.getElementById('menu-icon').addEventListener('click', () => {
         location.href = '/menu';
     });

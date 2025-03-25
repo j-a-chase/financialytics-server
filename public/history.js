@@ -1,25 +1,16 @@
-const getCategoryString = async uid => {
-    return fetch(`/api/targets?uid=${uid}`, { method: 'GET' })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to fetch categories');
-        }
-        return response.json();
-    })
-    .then(data => {
-        options = '';
-        data.forEach(target => {
-            options += `<option value="${target.name}">${toTitleCase(target.name)}</option>`;
-        })
-        return options;
-    })
-    .catch(error => console.error(error));
-}
+/**
+ * history.js
+ * James Chase
+ * 240325
+ * Client-side script for the history page.
+*/
 
 document.addEventListener('DOMContentLoaded', async () => {
     const uid = document.querySelector('body').getAttribute('data-user');
     const categoryString = await getCategoryString(uid);
 
+    // adds a new row to the top of the table with input fields for the user to
+    // fill out
     const addTransaction = document.querySelector('#add-button');
     addTransaction.addEventListener('click', () => {
         addTransaction.disabled = true;
@@ -56,6 +47,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         tbody.insertBefore(newTransaction, tbody.childNodes[0]);
     });
 
+    // initializes input fields for the selected transaction using the data
+    // currently in the table
     const editButtons = document.querySelectorAll('.edit-button');
     editButtons.forEach(button => {
         button.addEventListener('click', (event) => {
@@ -100,6 +93,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
 
+    // deletes the selected transaction from the table and the database
     const deleteButtons = document.querySelectorAll('.delete-button');
     deleteButtons.forEach(button => {
         button.addEventListener('click', (event) => {
@@ -121,6 +115,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 });
 
+// leverages the server to retrieve the categories for the user so that the
+// intimate details do not need to be revealed to the client
+const getCategoryString = async uid => {
+    return fetch(`/api/targets?uid=${uid}`, { method: 'GET' })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to fetch categories');
+        }
+        return response.json();
+    })
+    .then(data => {
+        options = '';
+        data.forEach(target => {
+            options += `<option value="${target.name}">${toTitleCase(target.name)}</option>`;
+        })
+        return options;
+    })
+    .catch(error => console.error(error));
+}
+
+// creates a save button for saving the transaction based on if it's adding a
+// new transaction or editing an existing one
 const createSaveButton = (
     dateInput, descriptionInput, categoryInput,
     amountInput, isAdding=true, tableRow=null
@@ -156,6 +172,7 @@ const createSaveButton = (
     return saveButton;
 };
 
+// creates a cancel button for the user to cancel adding or editing a transaction
 const createCancelButton = () => {
     let cancelButton = document.createElement('button');
     cancelButton.innerText = 'Cancel';
@@ -163,6 +180,7 @@ const createCancelButton = () => {
     return cancelButton;
 };
 
+// converts the month abbreviation to a zero-padded number for the date input
 const getMonthNumber = month => {
     switch (month) {
         case 'Jan':
@@ -192,6 +210,7 @@ const getMonthNumber = month => {
     }
 };
 
+// capitalizes the first letter of each word in a string
 const toTitleCase = str => {
     return str.split(' ').map(s => s[0].toUpperCase() + s.slice(1)).join(' ');
 }
