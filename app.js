@@ -307,7 +307,7 @@ app.post('/api/target/edit', (req, res) => {
 });
 
 // this endpoint is different from above due to it being able to add
-// additional targets, rather than just edit existing ones
+// addition targets, rather than just edit existing ones
 app.post('/api/target/update', (req, res) => {
     if (!parseInt(req.query.uid)) {
         res.status(400).send('Invalid request!');
@@ -386,6 +386,15 @@ app.use((_, res) => {
     res.status(404).render('error', {
         title: 'Not Found - 404',
         message: "Sorry, the page you are looking for cannot be found.",
+        link: ''
+    });
+});
+
+app.use((err, _, res, __) => {
+    console.error(err.stack);
+    res.status(500).render('error', {
+        title: 'Internal Server Error - 500',
+        message: 'Something went wrong on our end. Please try again later.',
         link: ''
     });
 });
