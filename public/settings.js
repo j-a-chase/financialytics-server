@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const valueInputs = document.querySelectorAll('.value-input');
         const rows = document.querySelector('tbody').rows.length - 1; // it's including the button row
 
-        let targets = {};
+        let targets = [];
 
         for (let i = 0; i < rows; i++) {
             const text = textInputs[i].value;
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return;
             }
 
-            targets[text.toLowerCase()] = parseInt(parseFloat(value) * 100);
+            targets.push({id: null, name: text.toLowerCase(), amount: parseInt(parseFloat(value) * 100), included: false});
         }
 
         fetch(`/api/target/update?uid=${uid}`, {

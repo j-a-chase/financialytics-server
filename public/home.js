@@ -44,15 +44,21 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('cancel-button').addEventListener('click', () => location.reload());
 
     document.getElementById('save-button').addEventListener('click', () => {
-        const uid = JSON.parse(document.querySelector('body').getAttribute('data-user')).id;
-        let targetMap = {};
+        const uid = document.querySelector('body').getAttribute('data-user');
+        let targetList = [];
         for (const category of categories) {
             const trimmedCategory = category.replace(' ', '');
             const targetInput = document.getElementById(`${trimmedCategory}BudgetInput`);
-            const originalTarget = parseInt(document.getElementById(`${trimmedCategory}Budget`).getAttribute('data-budget')) * 100;
-            const target = parseInt(targetInput.value) * 100;
+            const originalTargetSpan = document.getElementById(`${trimmedCategory}Budget`);
+            const originalTarget = parseInt(parseFloat(originalTargetSpan.getAttribute('data-budget')) * 100);
+            const target = parseInt(parseFloat(targetInput.value) * 100);
             if (target !== originalTarget) {
-                targetMap[category] = target;
+                targetList.push({
+                    id: originalTargetSpan.getAttribute('data-targetid'),
+                    name: category,
+                    amount: target,
+                    included: originalTargetSpan.getAttribute('data-included') === 'true'
+                });
             }
         }
 
@@ -62,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(targetMap)
+            body: JSON.stringify(targetList)
         })
             .then(response => {
                 if (!response.ok) {

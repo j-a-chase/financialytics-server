@@ -3,8 +3,9 @@
 <head>
     <%- include('partials/head', { title: 'Financialytics', stylesheets: ['styles', 'home']}) %>
     <script src="/home.js" defer></script>
-</head>
-<body data-user="<%=JSON.stringify(user)%>" data-targets="<%=Object.keys(targets).join(',')%>">
+</head> 
+<% const targetNames = targets.map(target => target.name) %>
+<body data-user="<%=user.id%>" data-targets="<%=targetNames.join(',')%>">
 <main id="home">
     <header class="division">
         <h1>Financialytics</h1>
@@ -37,22 +38,26 @@
             <div class="progress-bar" id="progressBarMonthly"></div>
         </div>
         <div class="values">
-            <% const { income, ...nonIncomeTargets } = targets %>
+            <% const income = targets[0] %>
+            <% const nonIncomeTargets = targets.slice(1) %>
             <span id="monthlyCurrent">$<%=transactions.filter(transaction => transaction.category !== "income").reduce((acc, transaction) => acc + transaction.amount, 0) / 100%></span>
-            <span id="monthlyBudget">$<%=(Object.values(nonIncomeTargets).reduce((acc, target) => acc + target, 0) / 100) * getLeniencyValue(leniency)%></span>
+            <span id="monthlyBudget">$<%=(nonIncomeTargets.map(t => t.amount).reduce((acc, target) => acc + target, 0) / 100) * getLeniencyValue(leniency)%></span>
         </div>
     </div>
     <% for (const target in targets) { %>
         <div class="target">
-            <h3><%=toTitleCase(target)%></h3>
-            <% const currentValue = transactions.filter(transaction => transaction.category === target).reduce((acc, transaction) => acc + transaction.amount, 0) / 100 %>
-            <% const trimmedTarget = target.replace(' ', '') %>
+            <h3><%=toTitleCase(targets[target].name)%></h3>
+            <% const currentValue = transactions.filter(transaction => transaction.category === targets[target].name).reduce((acc, transaction) => acc + transaction.amount, 0) / 100 %>
+            <% const trimmedTarget = targets[target].name.replace(' ', '') %>
             <div class="progress-bar-container">
                 <div class="progress-bar" id="progressBar<%=trimmedTarget%>"></div>
             </div>
             <div class="values">
                 <span id="<%=trimmedTarget%>Current" data-<%=trimmedTarget%>="<%=currentValue%>">$0</span>
-                <span id="<%=trimmedTarget%>Budget" data-budget="<%=targets[target] / 100%>">$0</span>
+                <span id="<%=trimmedTarget%>Budget"
+                    data-budget="<%=targets[target].amount / 100%>"
+                    data-targetid="<%=targets[target].id%>"
+                    data-included="<%=targets[target].included%>">$0</span>
             </div>
         </div>
     <% } %>
@@ -69,10 +74,10 @@
         </select>
     </div>
     <% for (const target in targets) { %>
-        <% const trimmedTarget = target.replace(' ', '') %>
+        <% const trimmedTarget = targets[target].name.replace(' ', '') %>
         <div class="target-input">
-            <h3><%=toTitleCase(target)%></h3>
-            <input type="number" id="<%=trimmedTarget%>BudgetInput" value="<%=targets[target] / 100%>">
+            <h3><%=toTitleCase(targets[target].name)%></h3>
+            <input type="number" id="<%=trimmedTarget%>BudgetInput" value="<%=targets[target].amount / 100%>">
         </div>
     <% } %>
     <div id="form-buttons">

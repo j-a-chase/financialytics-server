@@ -8,8 +8,8 @@ const getCategoryString = async uid => {
     })
     .then(data => {
         options = '';
-        Object.keys(data).forEach(target => {
-            options += `<option value="${target}">${toTitleCase(target)}</option>`;
+        data.forEach(target => {
+            options += `<option value="${target.name}">${toTitleCase(target.name)}</option>`;
         })
         return options;
     })

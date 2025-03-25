@@ -95,7 +95,7 @@ app.get('/menu', (_, res) => {
         })
         .then(user => {
             const categories = new Set(user.transactions.map(transaction => transaction.category));
-            res.status(200).render('settings', { user: user, categories: categories});
+            res.status(200).render('settings', { user: user, targets: user.targets, categories: categories});
         })
         .catch(error => {
             if (process.env.NODE_ENV === 'development') {
@@ -307,7 +307,7 @@ app.post('/api/target/edit', (req, res) => {
 });
 
 // this endpoint is different from above due to it being able to add
-// addition targets, rather than just edit existing ones
+// additional targets, rather than just edit existing ones
 app.post('/api/target/update', (req, res) => {
     if (!parseInt(req.query.uid)) {
         res.status(400).send('Invalid request!');

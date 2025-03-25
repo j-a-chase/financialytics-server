@@ -21,19 +21,19 @@
                 </tr>
             </thead>
             <tbody>
-                <% for (const target in user.targets) { %>
-                    <tr data-row="<%=JSON.stringify({originalName: target})%>">
+                <% for (const target in targets) { %>
+                    <tr data-row="<%=JSON.stringify({originalName: targets[target].name})%>">
                         <td>
-                            <input type="text" class="text-input" value="<%=toTitleCase(target)%>">
+                            <input type="text" class="text-input" value="<%=toTitleCase(targets[target].name)%>">
                         </td>
                         <td>
-                            <input type="number" class="value-input" value="<%=user.targets[target] / 100%>" min="0" step="0.01">
+                            <input type="number" class="value-input" value="<%=targets[target].amount / 100%>" min="0" step="0.01">
                         </td>
                         <!-- <td>
                             Insert a checkbox here to indicate if it should be included in the monthly budget calcuation
                         </td> -->
                         <td>
-                            <% if (!categories.has(target)) {%>
+                            <% if (!categories.has(targets[target].name)) {%>
                                 <button class="delete-button">Delete</button>
                             <% } %>
                         </td>
