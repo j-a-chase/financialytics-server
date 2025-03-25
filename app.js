@@ -38,6 +38,7 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// debugging middleware only for development
 if (process.env.NODE_ENV === 'development') {
     app.use((req, res, next) => {
         console.log(`${req.method}: ${req.url} - Status ${res.statusCode}`);
@@ -50,7 +51,9 @@ if (process.env.NODE_ENV === 'development') {
     GET ENDPOINTS
 */
 
+// home endpoint
 app.get('/', (_, res) => {
+    // fetch user data
     fetch(`http://${process.env.API_HOST}/user/initialize?uid=${process.env.TEST_USER_ID}`)
         .then(response => {
             if (!response.ok) {
@@ -59,22 +62,25 @@ app.get('/', (_, res) => {
             return response.json();
         })
         .then(data => {
-            user = { name: data.name, id: data.id };
-            transactions = (data.transactions.length >= 4) ? data.transactions.slice(-3) : data.transactions;
+            const user = { name: data.name, id: data.id };
+            // retrieves 3 most recent transactions, or all if less than 4
+            const transactions = (data.transactions.length >= 4) ? data.transactions.slice(-3) : data.transactions;
+
             res.status(200).render('home', {
-                month: getStringMonth(new Date().getMonth()),
-                chart: "under-construction.svg",
-                user: user,
-                recentTransactions: transactions,
-                transactions: data.transactions,
-                targets: data.targets,
-                leniency: data.budgetLeniency.toLowerCase()
+                month: getStringMonth(new Date().getMonth()), // get current month
+                chart: "under-construction.svg", // placeholder for chart
+                user: user, // all user data
+                recentTransactions: transactions, // recent transactions as defined above
+                transactions: data.transactions, // entire transaction list for target data in sidebar
+                targets: data.targets, // target info for sidebar
+                leniency: data.budgetLeniency.toLowerCase() // leniency level for sidebar
             });
         })
         .catch(error => {
             if (process.env.NODE_ENV === 'development') {
                 console.error(error);
             }
+
             res.status(500).render('error', {
                 title: 'Internal Server Error - 500',
                 message: 'Failed to initialize user!',
@@ -94,13 +100,20 @@ app.get('/menu', (_, res) => {
             return response.json();
         })
         .then(user => {
+            // set of categories used by the transactions
             const categories = new Set(user.transactions.map(transaction => transaction.category));
-            res.status(200).render('settings', { user: user, targets: user.targets, categories: categories});
+
+            res.status(200).render('settings', {
+                user: user,
+                targets: user.targets,
+                categories: categories
+            });
         })
         .catch(error => {
             if (process.env.NODE_ENV === 'development') {
                 console.error(error);
             }
+
             res.status(500).render('error', {
                 title: 'Internal Server Error - 500',
                 message: 'Failed to initialize user!',
@@ -109,7 +122,10 @@ app.get('/menu', (_, res) => {
         });
 });
 
+// webpage for managing entire transaction history, allowing for edits,
+// additions, removals, etc.
 app.get('/history', (req, res) => {
+    // ensure user ID is provided and valid
     if (!parseInt(req.query.uid)) {
         res.status(400).render('error', {
             title: 'Bad Request - 400',
@@ -118,6 +134,7 @@ app.get('/history', (req, res) => {
         return;
     }
 
+    // fetch all transactions for the user
     fetch(`http://${process.env.API_HOST}/transaction/all?uid=${req.query.uid}`)
         .then(response => {
             if (!response.ok) {
@@ -129,7 +146,10 @@ app.get('/history', (req, res) => {
             res.status(200).render('history', { uid: req.query.uid, transactions: data });
         })
         .catch(error => {
-            console.error(error);
+            if (process.env.NODE_ENV === 'development') {
+                console.error(error);
+            }
+
             res.status(500).render('error', {
                 title: 'Internal Server Error - 500',
                 message: 'Failed to fetch all transactions',
@@ -138,7 +158,9 @@ app.get('/history', (req, res) => {
         });
 });
 
+// webpage for viewing specific details of a single transaction
 app.get('/details', (req, res) => {
+    // ensure transaction ID is provided and valid
     if (!req.query.tid) {
         res.status(400).render('error', {
             title: 'Bad Request - 400',
@@ -148,6 +170,7 @@ app.get('/details', (req, res) => {
         return;
     }
 
+    // fetch transaction details
     fetch(`http://${process.env.API_HOST}/transaction/detail?tid=${req.query.tid}`)
         .then(response => {
             if (!response.ok) {
@@ -159,7 +182,10 @@ app.get('/details', (req, res) => {
             res.status(200).render('details', { transaction: data });
         })
         .catch(error => {
-            console.error(error);
+            if (process.env.NODE_ENV === 'development') {
+                console.error(error);
+            }
+
             res.status(500).render('error', {
                 title: 'Internal Server Error - 500',
                 message: 'Failed to fetch transaction details',
@@ -168,6 +194,9 @@ app.get('/details', (req, res) => {
         })
 });
 
+// simple get endpoint for retrieving all transaction data for the user
+// used so that transactions don't have to be dumped to the template where
+// the intimate details and implementation are viewable
 app.get('/api/transactions', (req, res) => {
     if (!parseInt(req.query.uid)) {
         res.status(400).send('Invalid request!');
@@ -183,11 +212,17 @@ app.get('/api/transactions', (req, res) => {
         })
         .then(data => res.status(200).send(data))
         .catch(error => {
-            console.error(error);
+            if (process.env.NODE_ENV === 'development') {
+                console.error(error);
+            }
+
             res.status(500).send('Failed to fetch transactions');
         });
 });
 
+// simple get endpoint for retrieving all target data for the user
+// used so that targets don't have to be dumped to the template where
+// the intimate details and implementation are viewable
 app.get('/api/targets', (req, res) => {
     if (!parseInt(req.query.uid)) {
         res.status(400).send('Invalid request!');
@@ -203,11 +238,15 @@ app.get('/api/targets', (req, res) => {
         })
         .then(data => res.status(200).send(data))
         .catch(error => {
-            console.error(error);
+            if (process.env.NODE_ENV === 'development') {
+                console.error(error);
+            }
+
             res.status(500).send('Failed to fetch targets');
         });
 });
 
+// stubbed webpage endpoint for displaying charts
 app.get('/charts', (_, res) => {
     const stubCharts = [
         { name: 'chart1', image: 'under-construction.svg' },
@@ -222,6 +261,7 @@ app.get('/charts', (_, res) => {
     POST ENDPOINTS
 */
 
+// connects to add endpoint for transactions within the API
 app.post('/api/add', (req, res) => {
     const date = req.body.date.toString();
     fetch(`http://${process.env.API_HOST}/transaction/add`, {
@@ -245,11 +285,15 @@ app.post('/api/add', (req, res) => {
         })
         .then(data => res.status(200).send(data))
         .catch(error => {
-            console.error(error);
+            if (process.env.NODE_ENV === 'development') {
+                console.error(error);
+            }
+
             res.status(500).send('Failed to add transaction');
         });
 });
 
+// connects to edit endpoint for transactions within the API
 app.post('/api/edit', (req, res) => {
     const date = req.body.date.toString();
     const notes = req.body.notes ? req.body.notes : '';
@@ -275,11 +319,15 @@ app.post('/api/edit', (req, res) => {
         })
         .then(data => res.status(200).send(data))
         .catch(error => {
-            console.error(error);
+            if (process.env.NODE_ENV === 'development') {
+                console.error(error);
+            }
+
             res.status(500).send('Failed to edit transaction');
         });
 });
 
+// connects to edit endpoint for targets within the API
 app.post('/api/target/edit', (req, res) => {
     if (!parseInt(req.query.uid)) {
         res.status(400).send('Invalid request!');
@@ -301,7 +349,10 @@ app.post('/api/target/edit', (req, res) => {
         })
         .then(data => res.status(200).send(data))
         .catch(error => {
-            console.error(error);
+            if (process.env.NODE_ENV === 'development') {
+                console.error(error);
+            }
+
             res.status(500).send('Failed to edit target');
         });
 });
@@ -329,11 +380,15 @@ app.post('/api/target/update', (req, res) => {
         })
         .then(data => res.status(200).send(data))
         .catch(error => {
-            console.error(error);
+            if (process.env.NODE_ENV === 'development') {
+                console.error(error);
+            }
+
             res.status(500).send('Failed to update target');
         });
 });
 
+// connects to edit endpoint for leniency within the API
 app.post('/api/leniency/edit', (req, res) => {
     if (!parseInt(req.body.uid) || !leniencyLevels.includes(req.body.leniency)) {
         res.status(400).send('Invalid request!');
@@ -355,7 +410,10 @@ app.post('/api/leniency/edit', (req, res) => {
         })
         .then(data => res.status(200).send(data))
         .catch(error => {
-            console.error(error);
+            if (process.env.NODE_ENV === 'development') {
+                console.error(error);
+            }
+
             res.status(500).send('Failed to edit leniency');
         });
 });
@@ -364,6 +422,7 @@ app.post('/api/leniency/edit', (req, res) => {
     DELETE ENDPOINTS
 */
 
+// connects to delete endpoint for transactions within the API
 app.delete('/api/delete', (req, res) => {
     fetch(`http://${process.env.API_HOST}/transaction/delete?tid=${req.query.tid}`, { method: 'DELETE' })
         .then(response => {
@@ -374,7 +433,10 @@ app.delete('/api/delete', (req, res) => {
         })
         .then(data => res.status(200).send(data))
         .catch(error => {
-            console.error(error);
+            if (process.env.NODE_ENV === 'development') {
+                console.error(error);
+            }
+
             res.status(500).send('Failed to delete transaction');
         });
 });
@@ -390,6 +452,9 @@ app.use((_, res) => {
     });
 });
 
+// error handling middleware for when the template engine fails so that the
+// error stack isn't displayed to the user but rather is contained on the
+// server
 app.use((err, _, res, __) => {
     console.error(err.stack);
     res.status(500).render('error', {
@@ -399,4 +464,5 @@ app.use((err, _, res, __) => {
     });
 });
 
+// export app for testing
 module.exports = app;
