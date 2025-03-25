@@ -129,7 +129,8 @@ app.get('/history', (req, res) => {
     if (!parseInt(req.query.uid)) {
         res.status(400).render('error', {
             title: 'Bad Request - 400',
-            message: 'Invalid user ID'
+            message: 'Invalid user ID',
+            link: ''
         });
         return;
     }
@@ -424,6 +425,11 @@ app.post('/api/leniency/edit', (req, res) => {
 
 // connects to delete endpoint for transactions within the API
 app.delete('/api/delete', (req, res) => {
+    if (!req.query.tid) {
+        res.status(400).send('Invalid tid!');
+        return;
+    }
+
     fetch(`http://${process.env.API_HOST}/transaction/delete?tid=${req.query.tid}`, { method: 'DELETE' })
         .then(response => {
             if (!response.ok) {
@@ -456,7 +462,10 @@ app.use((_, res) => {
 // error stack isn't displayed to the user but rather is contained on the
 // server
 app.use((err, _, res, __) => {
-    console.error(err.stack);
+    if (process.env.NODE_ENV === 'development') {
+        console.error(err.stack);
+    }
+    
     res.status(500).render('error', {
         title: 'Internal Server Error - 500',
         message: 'Something went wrong on our end. Please try again later.',
