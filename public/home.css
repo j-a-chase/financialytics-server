@@ -1,3 +1,10 @@
+/*
+ * James Chase
+ * 240325
+ * home.css
+ * Styles for the home page
+*/
+
 /* Main content */
 main#home {
     width: 70%;
@@ -8,6 +15,8 @@ main#home {
 #summary h2 {
     margin-bottom: 1rem;
 }
+
+/* chart section */
 
 #chart {
     background-color: rgba(255, 255, 255, 0.5);
@@ -33,13 +42,12 @@ table#transactions {
     margin-left: 5%;
 }
 
-/* sidebar */
+/* target sidebar */
 
 #target-panel-header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    /* margin-bottom: 1rem; */
 }
 
 #menu-icon {

@@ -1,8 +1,8 @@
 /*
-James Chase
-120325
-details.css
-Styles for the transaction detail page
+ * James Chase
+ * 120325
+ * details.css
+ * Styles for the transaction detail page
 */
 
 textarea {
@@ -21,7 +21,7 @@ div#date {
 }
 
 div#notes {
-    flex-direction: column;
+    flex-direction: column; /* display the text area beneath the h2 */
 }
 
 h2 {

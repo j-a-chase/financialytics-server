@@ -1,9 +1,11 @@
 /*
-James Chase
-120325
-history.css
-Styles for the history page
+ * James Chase
+ * 120325
+ * history.css
+ * Styles for the history page
 */
+
+/* transaction table styles */
 
 table {
     text-align: center;
@@ -27,6 +29,8 @@ th {
 tr:nth-child(even) td {
     background-color: #e0845c;
 }
+
+/* add transaction button styles */
 
 #add-button {
     background-color: #f1c463; /*cf801f*/

@@ -1,3 +1,10 @@
+/*
+ * James Chase
+ * 240325
+ * charts.css
+ * Styles for the charts page
+*/
+
 .chart-container {
     display: flex;
     flex-direction: row;

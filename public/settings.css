@@ -1,3 +1,10 @@
+/*
+ * James Chase
+ * 240325
+ * settings.css
+ * Styles for the settings page
+*/
+
 main {
     width: 100%;
     height: 100%;
@@ -12,15 +19,18 @@ header {
     align-items: center;
 }
 
+/* go back arrow */
 img {
     width: 3%;
-    cursor: pointer;
+    cursor: pointer; /* Makes image appear clickable even though it's not a button */
 }
 
+/* section headers */
 h2 {
     margin-bottom: 1rem;
 }
 
+/* disclaimer styles */
 span {
     font-size: 1.2rem;
     font-weight: bold;
@@ -29,6 +39,7 @@ span {
     background-color: #f2b90c;
 }
 
+/* for the target table */
 table {
     margin-top: 1rem;
     margin-left: 1rem;
@@ -49,8 +60,3 @@ input:disabled {
     background-color: transparent;
     text-align: center;
 }
-
-/* #button-row td:nth-child(2) {
-    text-align: right;
-} */
-
