@@ -38,10 +38,14 @@
             <div class="progress-bar" id="progressBarMonthly"></div>
         </div>
         <div class="values">
-            <% const income = targets[0] %>
-            <% const nonIncomeTargets = targets.slice(1) %>
             <span id="monthlyCurrent">$<%=transactions.filter(transaction => transaction.category !== "income").reduce((acc, transaction) => acc + transaction.amount, 0) / 100%></span>
-            <span id="monthlyBudget">$<%=(nonIncomeTargets.map(t => t.amount).reduce((acc, target) => acc + target, 0) / 100) * getLeniencyValue(leniency)%></span>
+            <span id="monthlyBudget">
+                $<%=(
+                    targets.filter(t => t.included)
+                        .map(t => t.amount)
+                        .reduce((acc, target) => acc + target, 0) / 100
+                ) * getLeniencyValue(leniency)%>
+            </span>
         </div>
     </div>
     <% for (const target in targets) { %>
