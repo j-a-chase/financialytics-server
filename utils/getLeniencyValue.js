@@ -1,5 +1,8 @@
-/*
-    Calculates the leniency percentage given the selection
+/**
+ * getLeniencyValue.js
+ * James Chase
+ * 240325
+ * Calculates the leniency percentage given the selection
 */
 
 const leniencyLevels = ['STRICT', 'NORMAL', 'LENIENT'];

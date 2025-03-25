@@ -1,3 +1,10 @@
+/**
+ * getMonthNumber.js
+ * James Chase
+ * 240325
+ * Returns the zero-padded month number given the month abbreviation
+*/
+
 const getMonthNumber = month => {
     switch (month) {
         case 'Jan':

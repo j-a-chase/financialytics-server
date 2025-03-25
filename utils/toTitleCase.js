@@ -1,4 +1,7 @@
 /**
+ * toTitleCase.js
+ * James Chase
+ * 240325
  * Capitalize the first letter of each word in a string
 */
 

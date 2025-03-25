@@ -1,5 +1,8 @@
 /**
- * Get the current month
+ * getStringMonth.js
+ * James Chase
+ * 240325
+ * Returns the current month given the month number (0-11)
 */
 
 const getStringMonth = monthNum => {
