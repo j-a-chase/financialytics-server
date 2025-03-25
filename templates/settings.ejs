@@ -23,7 +23,7 @@
             </thead>
             <tbody>
                 <% for (const target in targets) { %>
-                    <tr id="<%=targets[target].name.replace(' ', '')%>">
+                    <tr id="<%=targets[target].name.replaceAll(' ', '')%>">
                         <td>
                             <input type="text" class="text-input" value="<%=toTitleCase(targets[target].name)%>">
                         </td>

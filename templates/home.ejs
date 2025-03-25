@@ -52,7 +52,7 @@
         <div class="target">
             <h3><%=toTitleCase(targets[target].name)%></h3>
             <% const currentValue = transactions.filter(transaction => transaction.category === targets[target].name).reduce((acc, transaction) => acc + transaction.amount, 0) / 100 %>
-            <% const trimmedTarget = targets[target].name.replace(' ', '') %>
+            <% const trimmedTarget = targets[target].name.replaceAll(' ', '') %>
             <div class="progress-bar-container">
                 <div class="progress-bar" id="progressBar<%=trimmedTarget%>"></div>
             </div>

@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const categories = document.querySelector('body').getAttribute('data-targets').split(',');
 
     categories.forEach(category => {
-        const trimmedCategory = category.replace(' ', '');
+        const trimmedCategory = category.replaceAll(' ', '');
         let currentSpan = document.getElementById(`${trimmedCategory}Current`);
         let budgetSpan = document.getElementById(`${trimmedCategory}Budget`);
         const current = parseFloat(currentSpan.getAttribute(`data-${trimmedCategory}`));
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const uid = document.querySelector('body').getAttribute('data-user');
         let targetList = [];
         for (const category of categories) {
-            const trimmedCategory = category.replace(' ', '');
+            const trimmedCategory = category.replaceAll(' ', '');
             const targetInput = document.getElementById(`${trimmedCategory}BudgetInput`);
             const originalTargetSpan = document.getElementById(`${trimmedCategory}Budget`);
             const originalTarget = parseInt(parseFloat(originalTargetSpan.getAttribute('data-budget')) * 100);
