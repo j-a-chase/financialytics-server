@@ -19,7 +19,7 @@ dotenv.config();
 
 // listen for requests
 app.listen(process.env.PORT, () => {
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
         console.log(`Listening on port ${process.env.PORT}...`);
     }
 });
