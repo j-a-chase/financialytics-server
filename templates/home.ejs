@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include('partials/head', { title: 'Financialytics', stylesheets: ['styles', 'home']}) %>
-    <script src="/home.js" defer></script>
+    <%- include('partials/head', { title: 'Financialytics', stylesheets: ['styles', 'home'], scripts: ['home',] }) %>
 </head> 
 <% const targetNames = targets.map(target => target.name) %>
 <body data-user="<%=user.id%>" data-targets="<%=targetNames.join(',')%>">

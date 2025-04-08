@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include('partials/head', { title: 'Settings', stylesheets: ['styles', 'settings']}) %>
-    <script src="settings.js" defer></script>
+    <%- include('partials/head', { title: 'Settings', stylesheets: ['styles', 'settings'], scripts: ['settings'] }) %>
 </head>
 <body data-user="<%=user.id%>">
 <main>
