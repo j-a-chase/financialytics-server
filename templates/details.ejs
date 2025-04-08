@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include('partials/head', { title: 'Transaction Details', stylesheets: ['styles', 'subpage', 'details'], scripts: ['details'] }) %>
+    <%- include('partials/head', { title: 'Transaction Details', stylesheets: ['styles', 'subpage', 'details'], scripts: ['shared_functions', 'details'] }) %>
 </head>
 <body>
 <main data-tid="<%=transaction.id%>">
