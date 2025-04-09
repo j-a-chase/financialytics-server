@@ -297,7 +297,7 @@ app.post('/api/add', (req, res) => {
 // connects to edit endpoint for transactions within the API
 app.post('/api/edit', (req, res) => {
     const date = req.body.date.toString();
-    const notes = req.body.notes ? req.body.notes : '';
+    const notes = (req.body.notes !== null) ? req.body.notes : null;
     fetch(`http://${process.env.API_HOST}/transaction/edit`, {
         method: 'POST',
         headers: {
